@@ -1,0 +1,7 @@
+echo "+++++++++++++ Resizing disk /dev/sda ... +++++++++++++"
+#sudo parted /dev/sda resizepart 1 100%
+echo yes | sudo parted /dev/sda ---pretend-input-tty resizepart 1 100%
+# only if using LVM
+#sudo pvresize /dev/sda2
+#sudo lvextend -l +100%FREE /dev/centos/root
+sudo xfs_growfs /dev/sda1
