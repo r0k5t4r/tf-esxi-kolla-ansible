@@ -213,8 +213,11 @@ quay.io/calico/kube-controllers:v3.13.1
 quay.io/calico/node:v3.13.1
 rancher/coreos-flannel-cni:v0.3.0
 quay.io/coreos/flannel-cni:v0.15.1
+quay.io/coreos/flannel-cni:v0.3.0
+flannel-cni:v0.3.0
 quay.io/coreos/flannel:v0.12.0-amd64
 quay.io/coreos/flannel:v0.15.1
+quay.io/coreos/flannel:v0.30.0
 quay.io/prometheus/alertmanager:v0.20.0
 docker.io/squareup/ghostunnel:v1.5.2
 docker.io/jettech/kube-webhook-certgen:v1.0.0
@@ -243,6 +246,7 @@ mirrorgooglecontainers/heapster-amd64:v1.4.2
 kubernetesui/metrics-scraper:v1.0.4
 k8s.gcr.io/metrics-server/metrics-server:v0.5.2
 k8s.gcr.io/sig-storage/csi-snapshotter:v4.0.1
+k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.1
 EOF
 
 # pull all magnum container images
