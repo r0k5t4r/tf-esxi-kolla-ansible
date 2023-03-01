@@ -185,6 +185,7 @@ sudo sh push_docker_img.sh
 cat > magnum_docker_images.txt << EOF
 docker.io/coredns/coredns:1.3.1
 docker.io/coredns/coredns:1.6.6
+docker.io/coredns/coredns:1.9.3
 quay.io/coreos/etcd:v3.4.6
 docker.io/k8scloudprovider/k8s-keystone-auth:v1.18.0
 docker.io/k8scloudprovider/openstack-cloud-controller-manager:v1.18.0
@@ -211,19 +212,20 @@ quay.io/calico/cni:v3.13.1
 quay.io/calico/pod2daemon-flexvol:v3.13.1
 quay.io/calico/kube-controllers:v3.13.1
 quay.io/calico/node:v3.13.1
-rancher/coreos-flannel-cni:v0.3.0
 quay.io/coreos/flannel-cni:v0.15.1
 quay.io/coreos/flannel-cni:v0.3.0
-flannel-cni:v0.3.0
+rancher/coreos-flannel-cni:v0.3.0
 quay.io/coreos/flannel:v0.12.0-amd64
 quay.io/coreos/flannel:v0.15.1
-quay.io/coreos/flannel:v0.30.0
+quay.io/coreos/flannel:v0.18.1
+quay.io/coreos/flannel:v0.3.0
 quay.io/prometheus/alertmanager:v0.20.0
 docker.io/squareup/ghostunnel:v1.5.2
 docker.io/jettech/kube-webhook-certgen:v1.0.0
 quay.io/prometheus/prometheus:v2.15.2
 docker.io/k8scloudprovider/cinder-csi-plugin:v1.18.0
 quay.io/k8scsi/csi-attacher:v2.0.0
+quay.io/k8scsi/csi-attacher:v2.2.0
 quay.io/k8scsi/csi-provisioner:v1.4.0
 quay.io/k8scsi/csi-snapshotter:v1.2.2
 quay.io/k8scsi/csi-resizer:v0.3.0
@@ -231,6 +233,9 @@ quay.io/k8scsi/csi-resizer:v0.3.1
 quay.io/k8scsi/csi-node-driver-registrar:v1.1.0
 quay.io/coreos/etcd:v3.4.6
 rancher/hyperkube:v1.23.3-rancher1
+rancher/hyperkube:v1.21.7-rancher1
+rancher/hyperkube:v1.21.11-rancher1
+rancher/hyperkube:v1.23.8-rancher1
 kubernetesui/metrics-scraper:v1.0.4
 gcr.io/google-containers/cluster-proportional-autoscaler-amd64:1.1.2
 openstackmagnum/heat-container-agent:wallaby-stable-1
@@ -247,6 +252,18 @@ kubernetesui/metrics-scraper:v1.0.4
 k8s.gcr.io/metrics-server/metrics-server:v0.5.2
 k8s.gcr.io/sig-storage/csi-snapshotter:v4.0.1
 k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.1
+k8scloudprovider/openstack-cloud-controller-manager:v1.23.4
+k8scloudprovider/k8s-keystone-auth:v1.23.4
+k8scloudprovider/cinder-csi-plugin:v1.23.4
+k8scloudprovider/magnum-auto-healer:v1.23.4
+k8scloudprovider/octavia-ingress-controller:v1.23.4
+k8s.gcr.io/sig-storage/csi-attacher:v3.3.0
+k8s.gcr.io/sig-storage/csi-provisioner:v3.0.0
+k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
+k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.1
+k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.4.0
+k8s.gcr.io/sig-storage/livenessprobe:v2.5.0
+openstackmagnum/cluster-autoscaler:v1.22.0
 EOF
 
 # pull all magnum container images
