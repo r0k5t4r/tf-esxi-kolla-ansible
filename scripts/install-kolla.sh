@@ -84,8 +84,8 @@ sed -i 's/^#network_interface:.*/network_interface: "${network_interface}"/g' /e
 sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "${neutron_external_interface}"/g' /etc/kolla/globals.yml
 sed -i 's/^#enable_haproxy:.*/enable_haproxy: "${enable_haproxy}"/g' /etc/kolla/globals.yml
 sed -i 's/^#openstack_release:.*/openstack_release: "'"$${release}"'"/g' /etc/kolla/globals.yml
-sed -i 's/^#enable_neutron_provider_networks:.*/enable_neutron_provider_networks: "'"$${enable_neutron_provider_networks}"'"/g' /etc/kolla/globals.yml
-sed -i 's/^#enable_dvr:.*/enable_dvr: "'"$${enable_dvr}"'"/g' /etc/kolla/globals.yml
+sed -i 's/^#enable_neutron_provider_networks:.*/enable_neutron_provider_networks: "${enable_neutron_provider_networks}"/g' /etc/kolla/globals.yml
+sed -i 's/^#enable_neutron_dvr:.*/enable_neutron_dvr: "${enable_neutron_dvr}"/g' /etc/kolla/globals.yml
 
 #Enable central logging
 sed -i 's/^#enable_central_logging:.*/enable_central_logging: "yes"/g' /etc/kolla/globals.yml
@@ -277,12 +277,12 @@ for img in `cat magnum_docker_images.txt`; do echo sudo docker pull $img; sudo d
 cat > ~/pull_kolla_docker_img.sh << EOF
 REGISTRY="localhost:4000"
 echo "Disabling local docker registry in /etc/kolla/globals.yml..."
-sed -i 's/^docker_registry:.*/#docker_registry: '"$${REGISTRY}"'/g' /etc/kolla/globals.yml
+sed -i 's/^docker_registry:.*/#docker_registry: "'"$${REGISTRY}"'"/g' /etc/kolla/globals.yml
 sed -i 's/^docker_registry_insecure:.*/#docker_registry_insecure: yes/g' /etc/kolla/globals.yml
 echo "Pulling Kolla-Ansible containers to localhost..."
 kolla-ansible -i all-in-one pull
 echo "Enabling local docker registry in /etc/kolla/globals.yml..."
-sed -i 's/^#docker_registry:.*/docker_registry: '"$${REGISTRY}"'/g' /etc/kolla/globals.yml
+sed -i 's/^#docker_registry:.*/docker_registry: "'"$${REGISTRY}"'"/g' /etc/kolla/globals.yml
 sed -i 's/^#docker_registry_insecure:.*/docker_registry_insecure: yes/g' /etc/kolla/globals.yml
 echo "All done. Now run sudo sh -v push_docker_img.sh in order to push the docker images to the local docker registry."
 EOF
