@@ -148,7 +148,8 @@ sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/dock
 #sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 # we need to install docker version < 23.x for ZUN to work
 sudo dnf install -y python3-dnf-plugin-versionlock
-sudo dnf versionlock -y install docker-ce-20.10.23-3.el8.x86_64 docker-ce-cli-20.10.23-3.el8.x86_64 containerd.io docker-compose-plugin
+sudo dnf -y install docker-ce-20.10.23-3.el8.x86_64 docker-ce-cli-20.10.23-3.el8.x86_64 containerd.io docker-compose-plugin
+sudo dnf versionlock docker-ce-20.10.23-3.el8.x86_64 docker-ce-cli-20.10.23-3.el8.x86_64 containerd.io docker-compose-plugin
 sudo systemctl --now enable docker
 #sudo systemctl daemon-reload
 #sudo systemctl restart docker
