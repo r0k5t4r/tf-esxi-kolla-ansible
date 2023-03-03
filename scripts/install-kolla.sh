@@ -272,6 +272,20 @@ EOF
 # pull all magnum container images
 for img in `cat magnum_docker_images.txt`; do echo sudo docker pull $img; sudo docker pull $img;done
 
+# create script to pull kolla docker images to central docker registry
+cat > ~/pull_kolla_docker_img.sh << EOF
+REGISTRY="localhost:4000"
+echo "Disabling local docker registry in /etc/kolla/globals.yml..."
+sed -i 's/^docker_registry:.*/#docker_registry: '"$${REGISTRY}"'/g' /etc/kolla/globals.yml
+sed -i 's/^docker_registry_insecure:.*/#docker_registry_insecure: yes/g' /etc/kolla/globals.yml
+echo "Pulling Kolla-Ansible containers to localhost..."
+kolla-ansible -i all-in-one pull
+echo "Enabling local docker registry in /etc/kolla/globals.yml..."
+sed -i 's/^#docker_registry:.*/docker_registry: '"$${REGISTRY}"'/g' /etc/kolla/globals.yml
+sed -i 's/^#docker_registry_insecure:.*/docker_registry_insecure: yes/g' /etc/kolla/globals.yml
+echo "All done. Now run sudo sh -v push_docker_img.sh in order to push the docker images to the local docker registry."
+EOF
+
 # create script to push magnum docker images to central docker registry
 cat > ~/push_magnum_docker_img.sh << EOF
 docker images --format "{{.Repository}} {{.Tag}}" | grep -v $${release} | grep -v local | while read -r image tag; do
