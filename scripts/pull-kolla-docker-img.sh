@@ -1,3 +1,8 @@
+deployment="${deployment}"
+release="${release}"
+virtdir="./$${release}"
+source $${virtdir}/bin/activate
+
 echo "Disabling local docker registry in /etc/kolla/globals.yml..."
 sed -i 's/^docker_registry:.*/#docker_registry: "172.28.7.127:4000"/g' /etc/kolla/globals.yml
 sed -i 's/^docker_registry_insecure:.*/#docker_registry_insecure: yes/g' /etc/kolla/globals.yml
