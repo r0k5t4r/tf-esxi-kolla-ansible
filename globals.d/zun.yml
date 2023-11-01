@@ -1,0 +1,8 @@
+---
+enable_zun: "yes"
+enable_kuryr: "yes"
+enable_etcd: "yes"
+docker_configure_for_zun: "yes"
+containerd_configure_for_zun: "yes"
+docker_apt_package_pin: "5:20.*"
+docker_yum_package_pin: "20.*"

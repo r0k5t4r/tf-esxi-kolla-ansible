@@ -1,0 +1,32 @@
+---
+# Configure the name of the network interface on the controllers used to access the Octavia management network. If using a VLAN provider network, ensure that the traffic is also bridged to Open vSwitch on the controllers.
+# This interface should have an IP address on the Octavia management subnet.
+octavia_network_interface: "eth06"
+enable_octavia: "yes"
+octavia_certs_country: DE
+octavia_certs_state: Hessen
+octavia_certs_organization: OpenStack
+octavia_certs_organizational_unit: Octavia
+octavia_amp_network_cidr: 192.168.43.0/24
+octavia_provider_drivers: "amphora:Amphora provider"
+# uncomment below if using OVN instead of OVS
+#octavia_provider_drivers: "ovn:OVN provider"
+#octavia_provider_agents: "ovn"
+
+
+octavia_amp_network:
+  name: lb-mgmt-net
+  # if you are using a flat interface for neutron_external_interface in /etc/kolla/globals.yml then you must use provider_network_type: flat and provider_physical_network: physnet2
+  # if you are using a trunk interface for neutron_external_interface in /etc/kolla/globals.yml then you must use provider_network_type: vlan, provider_segmentation_id: 43 and provider_physical_network: physnet1
+  #provider_network_type: vlan
+  #provider_segmentation_id: 43
+  #provider_physical_network: physnet1
+  external: false
+  shared: false
+  subnet:
+    name: lb-mgmt-subnet
+    cidr: "{{ octavia_amp_network_cidr }}"
+    no_gateway_ip: yes
+    allocation_pool_start: "192.168.43.11"
+    allocation_pool_end: "192.168.43.130"
+    enable_dhcp: yes

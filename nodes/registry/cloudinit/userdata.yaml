@@ -1,0 +1,125 @@
+#cloud-config
+ssh_pwauth: 1 
+packages:
+  # - docker
+  # - docker.io  
+  # - apt-transport-https
+# users:
+#   - name: composer
+#     uid: 2000
+#     groups: docker
+#     sudo: ['ALL=(ALL) NOPASSWD:ALL']
+#     shell: /bin/bash
+# write_files:
+#   - path: /home/composer/docker-compose.yml
+#     permissions: 0644
+#     owner: root
+#     content: |
+#       version: "3.7"
+#       services:
+#         rancher-server:
+#           image: rancher/rancher
+#           ports:
+#             - 80:80
+#             - 443:443
+#           volumes:
+#             - /opt/rancher:/var/lib/rancher
+#             - /etc/opt/midl/cert:/container/certs
+#             - /var/log/rancher/auditlog:/var/log/auditlog
+#           restart: always
+
+# runcmd:
+#   - curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+#   - chmod +x /usr/local/bin/docker-compose
+#   - usermod -a -G docker local
+#   - /usr/local/bin/docker-compose -f /home/composer/docker-compose.yml up -d
+#   - chown -R composer:docker /home/composer/
+#write_files:
+#  - content: |
+#       test 1
+#    path: C:\dl\file 1.ps1
+#
+#  - content: |
+#       test 2
+#    path: C:\dl\file 2.ps1
+#
+write_files:
+  - content: |
+      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet0", NAME="eth00"
+      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet1", NAME="eth01"
+      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet2", NAME="eth02"
+      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet3", NAME="eth03"
+      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet4", NAME="eth04"
+      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet5", NAME="eth05"
+      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet6", NAME="eth06"
+      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet7", NAME="eth07"
+      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet8", NAME="eth08"
+      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet9", NAME="eth09"
+    path: /etc/udev/rules.d/60-persistent-net.rules
+
+  - content: |
+       touch /var/done
+       # last line must be exit 0
+       exit 0
+    path: /etc/rc.local
+    append: true
+runcmd:
+  - sudo chmod +x /etc/rc.d/rc.local
+#write_files:
+#  - path: /etc/udev/rules.d/60-persistent-net.rules
+#    owner: ubuntu
+#    content: |
+#      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet0", NAME="eth00"
+#      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet1", NAME="eth01"
+#      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet2", NAME="eth02"
+#      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet3", NAME="eth03"
+#      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet4", NAME="eth04"
+#      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet5", NAME="eth05"
+#      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet6", NAME="eth06"
+#      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet7", NAME="eth07"
+#      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet8", NAME="eth08"
+#      SUBSYSTEM=="net", ACTION=="add", ATTRS{label}=="Ethernet9", NAME="eth09"
+#write_files:
+#  - path: /etc/rc.local
+#    content: | 
+#       touch /var/done
+##
+#       # last line must be exit 0
+#       exit 0
+#    append: true
+## poweroff or reboot system after finished
+## default: none
+##
+## power_state can be used to make the system shutdown, reboot or
+## halt after boot is finished.  This same thing can be acheived by
+## user-data scripts or by runcmd by simply invoking 'shutdown'.
+## 
+## Doing it this way ensures that cloud-init is entirely finished with
+## modules that would be executed, and avoids any error/log messages
+## that may go to the console as a result of system services like
+## syslog being taken down while cloud-init is running.
+##
+## If you delay '+5' (5 minutes) and have a timeout of
+## 120 (2 minutes), then the max time until shutdown will be 7 minutes.
+## cloud-init will invoke 'shutdown +5' after the process finishes, or
+## when 'timeout' seconds have elapsed.
+##
+## delay: form accepted by shutdown.  default is 'now'. other format
+##        accepted is +m (m in minutes)
+## mode: required. must be one of 'poweroff', 'halt', 'reboot'
+## message: provided as the message argument to 'shutdown'. default is none.
+## timeout: the amount of time to give the cloud-init process to finish
+##          before executing shutdown.
+## condition: apply state change only if condition is met.
+##            May be boolean True (always met), or False (never met),
+##            or a command string or list to be executed.
+##            command's exit code indicates:
+##               0: condition met
+##               1: condition not met
+##            other exit codes will result in 'not met', but are reserved
+##            for future use.
+##
+power_state:
+  timeout: 10
+  mode: reboot
+  message: Rebooting machine

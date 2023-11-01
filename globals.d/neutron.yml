@@ -1,0 +1,8 @@
+---
+# br-ex = neutron_external_interface in /etc/kolla/globals.yml
+# br-ex2 = octavia_network_interface in /etc/kolla/globals.d/octavia.yml
+# These two lists are “zipped” together, such that eth03 is plugged into the br-ex bridge, and eth01 is plugged into the br-ex2 bridge. 
+# Kolla Ansible maps these interfaces to Neutron physical networks physnet1 and physnet2 respectively.
+neutron_bridge_name: "br-ex1,br-ex2"
+neutron_external_interface: "eth03,eth01"
+enable_neutron_provider_networks: yes

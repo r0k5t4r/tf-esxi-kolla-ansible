@@ -1,0 +1,11 @@
+# the deployment variable can be either multinode or all-in-one, by default it is all-in-one
+deployment="${deployment}"
+release="${release}"
+virtdir="./$${release}"
+network_vlan_ranges="${network_vlan_ranges}"
+neutron_ext_net_dns="${neutron_ext_net_dns}"
+docker_registry_magnum="${docker_registry_magnum}"
+EXT_NET="${EXT_NET}"
+export nfs_uid="${nfs_uid}"
+octavia_vlan="${octavia_vlan}"
+deploy_local_registry="${deploy_local_registry}"

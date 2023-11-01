@@ -1,0 +1,49 @@
+---
+- name: Configure NFS Server for OpenStack
+  hosts: localhost
+  become: yes
+  vars:
+    nfs_uid: "{{ lookup('env','nfs_uid') }}"
+
+  tasks:
+    - name: Install NFS Utilities
+      package:
+        name: nfs-utils
+        state: present
+
+    - name: Create Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        recurse: yes
+      with_items:
+        - /var/nfs/openstack_volumes
+        - /var/nfs/openstack_backup
+
+    - name: Configure NFS Exports
+      lineinfile:
+        path: /etc/exports
+        line: "{{ item.line }}"
+        create: yes
+      with_items:
+        - { line: '/var/nfs/openstack_volumes *(rw,sync,no_subtree_check,no_root_squash)' }
+        - { line: '/var/nfs/openstack_backup *(rw,sync,no_subtree_check,no_root_squash)' }
+
+    - name: Set Directory Permissions
+      file:
+        path: "{{ item }}"
+        owner: "{{ nfs_uid }}"
+        group: "{{ nfs_uid }}"
+        recurse: yes
+      with_items:
+        - /var/nfs/openstack_volumes
+        - /var/nfs/openstack_backup
+
+    - name: Enable and Start NFS Services
+      systemd:
+        name: "{{ item }}"
+        enabled: yes
+        state: started
+      loop:
+        - nfs-server
+        - rpcbind
