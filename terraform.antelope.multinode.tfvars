@@ -40,15 +40,15 @@ vm_env = {
 deploy_env = {
   # **** Adjust if you want *****
   # Install Kolla-Ansible
-  install_kolla = false
+  install_kolla = true
   # Deploy an NFS server on the seed node - will be used by Cinder. Needs install_kolla = true
-  deploy_nfssrv = false
-  # Automatically deploy OpenStack using Kolla-Ansible
-  deploy_kolla = false
+  deploy_nfssrv = true
+  # Deploy OpenStack using Kolla-Ansible
+  deploy_kolla = true
   # Use a local docker registry. Use this if you already have a local docker registry.
   use_local_registry = true
   # Deploy a local docker registry on the seed node
-  deploy_local_registry = false
+  deploy_local_registry = true
   # Pull and push images to a local docker registry. Will be always be done if deploy_local_registry = true.
   pull_local_registry = true
 }
