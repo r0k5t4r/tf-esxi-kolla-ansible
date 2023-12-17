@@ -39,14 +39,18 @@ vm_env = {
 
 deploy_env = {
   # **** Adjust if you want *****
-  # Automatically Install Kolla-Ansible
-  install_kolla = true
-  # Deploy an NFS server on the seed node - will be used by Cinder
-  deploy_nfssrv = true
+  # Install Kolla-Ansible
+  install_kolla = false
+  # Deploy an NFS server on the seed node - will be used by Cinder. Needs install_kolla = true
+  deploy_nfssrv = false
   # Automatically deploy OpenStack using Kolla-Ansible
-  deploy_kolla = true
+  deploy_kolla = false
+  # Use a local docker registry. Use this if you already have a local docker registry.
+  use_local_registry = true
   # Deploy a local docker registry on the seed node
-  deploy_local_registry = true
+  deploy_local_registry = false
+  # Pull and push images to a local docker registry. Will be always be done if deploy_local_registry = true.
+  pull_local_registry = true
 }
 
 openstack_env = {
@@ -89,7 +93,9 @@ openstack_env = {
   enable_cinder_backend_nfs = "yes"
   cinder_nfs_share = "192.168.2.140:/var/nfs/openstack_volumes"
   cinder_nfs_bkp_share = "192.168.2.140:/var/nfs/openstack_backup"
-  # I recommend running a local docker registry on the seed node since its a couple of GB docker images that have to be downloaded. A central docker registry decreases the deployment time drastically.
+  # Use a local docker registry
+  # If you don't have one, I recommend running a local docker registry on the seed node since its a couple of GB docker images that have to be downloaded. 
+  # A central docker registry decreases the deployment time drastically.
   docker_registry_kolla = "192.168.2.140:4000"
   docker_registry_magnum = "192.168.2.140:4000"
   nfs_uid = "42407"
@@ -238,7 +244,8 @@ vms = {
     hostname = "compute01"
     ip = "192.168.2.144"
     ip_api = "192.168.20.144"
-    ip_octavia = ""
+    # the octacvia ip is not required on a compute node but the cloud-init metadata requires it!!!
+    ip_octavia = "192.168.43.144"
     ip_tunnel = "192.168.50.144"
     ip_nfs1 = "192.168.9.144"
     ip_nfs1_netmask = "255.255.255.0"
@@ -258,7 +265,8 @@ vms = {
     hostname = "compute02"
     ip = "192.168.2.145"
     ip_api = "192.168.20.145"
-    ip_octavia = ""
+    # the octacvia ip is not required on a compute node but the cloud-init metadata requires it!!!
+    ip_octavia = "192.168.43.144"
     ip_tunnel = "192.168.50.145"
     ip_nfs1 = "192.168.9.145"
     ip_nfs1_netmask = "255.255.255.0"

@@ -56,12 +56,16 @@ variable "deploy_env" {
       deploy_kolla = bool
       install_kolla = bool
       deploy_local_registry = bool
+      use_local_registry = bool
+      pull_local_registry = bool
     })
     default = {
         deploy_nfssrv = true
         deploy_kolla = true
         deploy_local_registry = true
         install_kolla = true
+        use_local_registry = true
+        pull_local_registry = true
     }
 }
 

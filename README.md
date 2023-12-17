@@ -43,7 +43,7 @@ The following examples work fine for me:
 
 [Multinode deployment of OpenStack Antelope (2023.1) Release](terraform.antelope.multinode.tfvars)
 
-[All-in-One deployment of OpenStack Antelope (2023.1) Release](terraform.antelope.multinode.tfvars)
+[All-in-One deployment of OpenStack Antelope (2023.1) Release](terraform.antelope.all-in-one.tfvars)
 
 In order to run this:
 

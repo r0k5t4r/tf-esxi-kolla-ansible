@@ -131,20 +131,36 @@ sed -i 's/^#cinder_backup_mount_options_nfs:.*/cinder_backup_mount_options_nfs: 
 #Display globals.yml settings
 grep ^[^#] /etc/kolla/globals.yml
 
+# docker install script doesn't work on Rocky
+# ERROR: Unsupported distribution 'rocky'
+#curl -sSL https://get.docker.io | sudo bash
+sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+cat << EOF | sudo tee -a /etc/docker/daemon.json
+{
+    "bridge": "none",
+    "default-ulimits": {
+        "nofile": {
+            "hard": 1048576,
+            "name": "nofile",
+            "soft": 1048576
+        }
+    },
+    "insecure-registries": [
+        "${docker_registry_kolla}"
+    ],
+    "ip-forward": false,
+    "iptables": false
+}
+# we need to install docker version < 23.x for ZUN to work
+#sudo dnf install -y python3-dnf-plugin-versionlock
+#sudo dnf -y install docker-ce-20.10.23-3.el8.x86_64 docker-ce-cli-20.10.23-3.el8.x86_64 containerd.io docker-compose-plugin
+#sudo dnf versionlock docker-ce-20.10.23-3.el8.x86_64 docker-ce-cli-20.10.23-3.el8.x86_64 containerd.io docker-compose-plugin
+sudo systemctl --now enable docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+sudo systemctl enable docker
 if [ $deploy_local_registry = true ]; then
-  # docker install script doesn't work on Rocky
-  # ERROR: Unsupported distribution 'rocky'
-  #curl -sSL https://get.docker.io | sudo bash
-  sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-  sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-  # we need to install docker version < 23.x for ZUN to work
-  #sudo dnf install -y python3-dnf-plugin-versionlock
-  #sudo dnf -y install docker-ce-20.10.23-3.el8.x86_64 docker-ce-cli-20.10.23-3.el8.x86_64 containerd.io docker-compose-plugin
-  #sudo dnf versionlock docker-ce-20.10.23-3.el8.x86_64 docker-ce-cli-20.10.23-3.el8.x86_64 containerd.io docker-compose-plugin
-  sudo systemctl --now enable docker
-  sudo systemctl daemon-reload
-  sudo systemctl restart docker
-  sudo systemctl enable docker
   sudo mkdir -p /var/lib/registry
   sudo docker run -d \
   --name registry \
@@ -158,43 +174,44 @@ fi
 
 # create script to pull kolla docker images to central docker registry
 cat > ~/pull_kolla_docker_img.sh << EOF
-#REGISTRY="localhost:4000"
 REGISTRY="${docker_registry_kolla}"
+option="$${1}"
+kolla_mod="$${2}"
 echo "Disabling local docker registry in /etc/kolla/globals.yml..."
-#sed -i 's/^docker_registry:.*/#docker_registry: "$${REGISTRY}"/g' /etc/kolla/globals.yml
 sed -i 's/^docker_registry:.*/#docker_registry: "${docker_registry_kolla}"/g' /etc/kolla/globals.yml
 sed -i 's/^docker_registry_insecure:.*/#docker_registry_insecure: yes/g' /etc/kolla/globals.yml
 echo "Pulling Kolla-Ansible containers to localhost..."
 . ./activate.sh
-kolla-ansible -i all-in-one pull $1 $2
+kolla-ansible -i all-in-one pull $option $kolla_mod
 echo "Enabling local docker registry in /etc/kolla/globals.yml..."
-#sed -i 's/^#docker_registry:.*/docker_registry: "$${REGISTRY}"/g' /etc/kolla/globals.yml
 sed -i 's/^#docker_registry:.*/docker_registry: "${docker_registry_kolla}"/g' /etc/kolla/globals.yml
 sed -i 's/^#docker_registry_insecure:.*/docker_registry_insecure: yes/g' /etc/kolla/globals.yml
 echo "All done. Now run sudo sh -v push_docker_img.sh in order to push the docker images to the local docker registry."
 EOF
 
-#sed -i 's/^#docker_registry:.*/docker_registry: "${docker_registry_kolla}"/g' /etc/kolla/globals.yml
-#sed -i 's/^#docker_registry_insecure:.*/docker_registry_insecure: yes/g' /etc/kolla/globals.yml
+# install docker dependencies
 sudo pip3 install docker
-if [ $deploy_local_registry = true ]; then
+
+# pull docker images if local registry is deployed or pull_local_registry is set to true.
+if [ $deploy_local_registry = true ] || [ $pull_local_registry = true ]; then
   sh -v pull_kolla_docker_img.sh
 fi
 
-# create script to push docker images to central docker registry
-if [ $deploy_local_registry = true ]; then
+# create script to push docker images to central docker registry and execute
 cat > ~/push_docker_img.sh << EOF
 docker images | grep kolla | grep -v local | awk '{print \$1,\$2}' | while read -r image tag; do
           newimg=\`echo \$${image} | cut -d / -f2-\`
-          docker tag \$${image}:\$${tag} localhost:4000/\$${newimg}:\$${tag}
-          docker push localhost:4000/\$${newimg}:\$${tag}
+          docker tag \$${image}:\$${tag} ${docker_registry_kolla}/\$${newimg}:\$${tag}
+          docker push ${docker_registry_kolla}/\$${newimg}:\$${tag}
 done
 EOF
-  sudo sh push_docker_img.sh
-fi
 
-# show images pushed to local docker registry
-curl -X GET http://${docker_registry_magnum}/v2/_catalog | python3 -m json.tool
+# push docker images to local registry if local registry is deployed or pull_local_registry is set to true.
+if [ $deploy_local_registry = true ] || [ $pull_local_registry = true ]; then
+  sudo sh push_docker_img.sh
+  # show images pushed to local docker registry
+  curl -X GET http://${docker_registry_magnum}/v2/_catalog | python3 -m json.tool
+fi
 
 cp /home/vagrant/$deployment.mod ~/$deployment
 

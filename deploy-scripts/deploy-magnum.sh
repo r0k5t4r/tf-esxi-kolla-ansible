@@ -187,12 +187,13 @@ for img in `cat magnum_docker_images.txt`; do echo sudo docker pull $img; sudo d
 
 # create script to push magnum docker images to central docker registry
 cat > ~/push_magnum_docker_img.sh << EOF
+REGISTRY="${docker_registry_magnum}"
 docker images --format "{{.Repository}} {{.Tag}}" | grep -v ${release} | grep -v local | while read -r image tag; do
         newimg=\`echo \${image} | rev | cut -d / -f 1 | rev\`
-        echo docker tag \${image}:\${tag} localhost:4000/\${newimg}:\${tag}
-        docker tag \${image}:\${tag} localhost:4000/\${newimg}:\${tag}
-        echo docker push localhost:4000/\${newimg}:\${tag}
-        docker push localhost:4000/\${newimg}:\${tag}
+        echo docker tag \${image}:\${tag} ${docker_registry_magnum}/\${newimg}:\${tag}
+        docker tag \${image}:\${tag} ${docker_registry_magnum}/\${newimg}:\${tag}
+        echo docker push ${docker_registry_magnum}/\${newimg}:\${tag}
+        docker push ${docker_registry_magnum}/\${newimg}:\${tag}
 done
 EOF
 sudo sh push_magnum_docker_img.sh

@@ -433,6 +433,8 @@ resource "null_resource" "kolla-env-script" {
     EXT_NET = var.openstack_env.EXT_NET
     octavia_vlan = var.portgroups["TF-OpenStack-2-Octavia-VLAN"].pg_vlan
     deploy_local_registry = var.deploy_env.deploy_local_registry
+    use_local_registry = var.deploy_env.use_local_registry
+    pull_local_registry = var.deploy_env.pull_local_registry
   })
     destination = "/home/vagrant/env.sh"
 
@@ -479,6 +481,8 @@ resource "null_resource" "kolla-install-script" {
     nfs_uid = var.openstack_env.nfs_uid
     EXT_NET = var.openstack_env.EXT_NET
     deploy_local_registry = var.deploy_env.deploy_local_registry
+    use_local_registry = var.deploy_env.use_local_registry
+    pull_local_registry = var.deploy_env.pull_local_registry
   })
     destination = "/home/vagrant/install-kolla.sh"
 

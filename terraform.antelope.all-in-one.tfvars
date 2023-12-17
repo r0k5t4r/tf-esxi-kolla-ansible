@@ -89,7 +89,9 @@ openstack_env = {
   enable_cinder_backend_nfs = "yes"
   cinder_nfs_share = "192.168.2.140:/var/nfs/openstack_volumes"
   cinder_nfs_bkp_share = "192.168.2.140:/var/nfs/openstack_backup"
-  # I recommend running a local docker registry on the seed node since its a couple of GB docker images that have to be downloaded. A central docker registry decreases the deployment time drastically.
+  # Use a local docker registry
+  # If you don't have one, I recommend running a local docker registry on the seed node since its a couple of GB docker images that have to be downloaded. 
+  # A central docker registry decreases the deployment time drastically.
   docker_registry_kolla = "192.168.2.140:4000"
   docker_registry_magnum = "192.168.2.140:4000"
   nfs_uid = "42407"
