@@ -203,7 +203,7 @@ cat > create_magnum_templates.sh << EOF
 # Cluster templates for Openstack release $release
 
 #Create cluster template with k8s version $newk8svers and containerd CRI
-openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$k8svers-containerd \
+openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$newk8svers-containerd \
 --image Fedora-CoreOS-$COREOSMAJ \
 --keypair mykey \
 --external-network ${EXT_NET} \
