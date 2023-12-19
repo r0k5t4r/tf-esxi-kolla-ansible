@@ -138,19 +138,7 @@ sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/dock
 sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 cat << EOF | sudo tee -a /etc/docker/daemon.json
 {
-    "bridge": "none",
-    "default-ulimits": {
-        "nofile": {
-            "hard": 1048576,
-            "name": "nofile",
-            "soft": 1048576
-        }
-    },
-    "insecure-registries": [
-        "${docker_registry_kolla}"
-    ],
-    "ip-forward": false,
-    "iptables": false
+    "insecure-registries": ["${docker_registry_kolla}"]
 }
 EOF
 # we need to install docker version < 23.x for ZUN to work
