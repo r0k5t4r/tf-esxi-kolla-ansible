@@ -9,7 +9,7 @@ MANILAIMG="manila-service-image-master.qcow2"
 MANILAIMGDLURL="https://tarballs.opendev.org/openstack/manila-image-elements/images/$MANILAIMG"
 
 #Download kolla docker container
-sh ~/deploy-scripts/download-svc.sh $kolla_mod
+sh ~/deploy-scripts/download-svc.sh $option $kolla_mod
 
 #Create magnum.conf file. In this file you can define additional settings for Magnum
 cat > /etc/kolla/config/manila-share.conf << EOF
