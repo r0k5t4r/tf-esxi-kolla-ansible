@@ -7,9 +7,10 @@ EXT_SUBNET=$(openstack network show $EXT_NET -f value -c subnets | awk -F \' '{p
 # see https://docs.openstack.org/kolla-ansible/yoga/reference/networking/octavia.html for more information
 kolla_mod="octavia"
 tags="common,horizon,octavia,neutron"
+option="--tags"
 
 #Download kolla docker container
-time sh ~/deploy-scripts/download-svc.sh $kolla_mod
+time sh ~/deploy-scripts/download-svc.sh $option $kolla_mod
 
 . $HOME/activate.sh
 . /etc/kolla/admin-openrc.sh

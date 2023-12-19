@@ -166,10 +166,10 @@ fi
 #kolla-ansible -i all-in-one pull
 
 # create script to pull kolla docker images to central docker registry
-cat > ~/pull_kolla_docker_img.sh << EOF
+cat > ~/pull_kolla_docker_img.sh2 << EOF
 REGISTRY="${docker_registry_kolla}"
-option="$${1}"
-kolla_mod="$${2}"
+option=\$1
+kolla_mod=\$2
 echo "Disabling local docker registry in /etc/kolla/globals.yml..."
 sed -i 's/^docker_registry:.*/#docker_registry: "${docker_registry_kolla}"/g' /etc/kolla/globals.yml
 sed -i 's/^docker_registry_insecure:.*/#docker_registry_insecure: yes/g' /etc/kolla/globals.yml
