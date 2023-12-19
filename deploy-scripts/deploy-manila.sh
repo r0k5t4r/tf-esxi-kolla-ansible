@@ -4,6 +4,7 @@ source ~/env.sh
 # see https://docs.openstack.org/kolla-ansible/2023.1/reference/storage/manila-guide.html for more information
 kolla_mod="manila"
 tags="common,horizon,manila"
+option="--tags"
 MANILAIMG="manila-service-image-master.qcow2"
 MANILAIMGDLURL="https://tarballs.opendev.org/openstack/manila-image-elements/images/$MANILAIMG"
 

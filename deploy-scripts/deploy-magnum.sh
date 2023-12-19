@@ -4,6 +4,7 @@ source ~/env.sh
 # see https://docs.openstack.org/kolla-ansible/yoga/reference/containers/magnum-guide.html for more information
 kolla_mod="magnum"
 tags="common,horizon,magnum"
+option="--tags"
 
 #Download kolla docker container
 sh ~/deploy-scripts/download-svc.sh $kolla_mod
