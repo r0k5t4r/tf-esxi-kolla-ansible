@@ -71,7 +71,7 @@ openstack flavor create m1.kubernetes.med \
 --public \
 --description "kubernetes medium flavor"
 
-#Create big to use with K8s
+#Create big flavor to use with K8s
 openstack flavor create m1.kubernetes.big \
 --disk 40 \
 --vcpu 2 \
