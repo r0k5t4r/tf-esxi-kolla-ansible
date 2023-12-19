@@ -62,10 +62,13 @@ resource "null_resource" "download_and_extract" {
       $filePath = Join-Path -Path $filedlPath -ChildPath $file
       # download the vmtemplate vagrant box if it doesn't exist
       if (-Not (Test-Path -Path $filePath)) {
-        Invoke-WebRequest -Uri "${var.vmtemplate.vmtemplatedlurl}" -OutFile "$filepath"
+        if (-Not (Test-Path -Path $filedlPath)) {
+          mkdir $filedlPath
+        }
+        Invoke-WebRequest -Uri "${var.vmtemplate.vmtemplatedlurl}" -OutFile "$filepath"  
       }
-        # extract the vagrant box
-        tar -xvzf $filePath -C $filedlPath
+      # extract the vagrant box
+      tar -xvzf $filePath -C $filedlPath
     EOT
     interpreter = ["PowerShell", "-Command"]
   }
