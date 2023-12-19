@@ -68,6 +68,10 @@ sed -i 's/^#kolla_internal_vip_address:.*/kolla_internal_vip_address: "${kolla_i
 sed -i 's/^#kolla_external_vip_address:.*/kolla_external_vip_address: "${kolla_external_vip_address}"/g' /etc/kolla/globals.yml
 sed -i 's/^#network_interface:.*/network_interface: "${network_interface}"/g' /etc/kolla/globals.yml
 sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "${neutron_external_interface}"/g' /etc/kolla/globals.yml
+
+# enable RabbitMQ HA see: https://docs.openstack.org/kolla-ansible/2023.1/reference/message-queues/rabbitmq.html for more info
+echo om_enable_rabbitmq_high_availability: "${om_enable_rabbitmq_high_availability}" >> /etc/kolla/globals.yml
+
 # We need two bridges for octavia when using flat networking
 if [ $network_vlan_ranges = 0 ]; then
   grep neutron_bridge_name /etc/kolla/globals.yml || echo neutron_bridge_name: "br-ex1,br-ex2" >> /etc/kolla/globals.yml

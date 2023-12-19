@@ -100,6 +100,7 @@ openstack_env = {
   docker_registry_magnum = "192.168.2.140:4000"
   nfs_uid = "42407"
   EXT_NET = "public1"
+  om_enable_rabbitmq_high_availability = "true"
 }
  
 # You can leave below as is. Adjust only if you know what you are doing. :)

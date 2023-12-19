@@ -97,6 +97,7 @@ variable "openstack_env" {
         enable_neutron_provider_networks = string
         EXT_NET = string
         nfs_uid = string
+        om_enable_rabbitmq_high_availability = string
     })
 }
 
