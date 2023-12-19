@@ -97,7 +97,7 @@ sed -i 's/^#enable_cinder:.*/enable_cinder: "${enable_cinder}"/g' /etc/kolla/glo
 #Enable Cinder NFS Backend
 sed -i 's/^#enable_cinder_backend_nfs:.*/enable_cinder_backend_nfs: "${enable_cinder_backend_nfs}"/g' /etc/kolla/globals.yml
 
-if [ $use_local_registry = true; then
+if [ $use_local_registry = true ]; then
   #Enable local registry
   sed -i 's/^#docker_registry:.*/docker_registry: "${docker_registry_kolla}"/g' /etc/kolla/globals.yml
   sed -i 's/^#docker_registry_insecure:.*/docker_registry_insecure: yes/g' /etc/kolla/globals.yml
