@@ -152,6 +152,7 @@ cat << EOF | sudo tee -a /etc/docker/daemon.json
     "ip-forward": false,
     "iptables": false
 }
+EOF
 # we need to install docker version < 23.x for ZUN to work
 #sudo dnf install -y python3-dnf-plugin-versionlock
 #sudo dnf -y install docker-ce-20.10.23-3.el8.x86_64 docker-ce-cli-20.10.23-3.el8.x86_64 containerd.io docker-compose-plugin
