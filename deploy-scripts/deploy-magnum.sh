@@ -220,6 +220,25 @@ openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$newk8svers-cont
 --coe kubernetes \
 --labels kube_tag=$newk8svers-rancher1,hyperkube_prefix=docker.io/rancher/,container_runtime=containerd,docker_volume_type=__DEFAULT__
 
+#Create cluster template with k8s version $newk8svers and containerd CRI using local docker registry
+openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$newk8svers-containerd-local-reg \
+--image Fedora-CoreOS-$COREOSMAJ \
+--keypair mykey \
+--external-network ${EXT_NET} \
+--fixed-network demo-net \
+--fixed-subnet demo-subnet \
+--dns-nameserver ${neutron_ext_net_dns} \
+--flavor m1.kubernetes.small \
+--master-flavor m1.kubernetes.small \
+--volume-driver cinder \
+--docker-volume-size 5 \
+--network-driver flannel \
+--docker-storage-driver overlay2 \
+--coe kubernetes \
+--labels kube_tag=$newk8svers-rancher1,container_infra_prefix=${docker_registry_magnum}/,container_runtime=containerd,docker_volume_type=__DEFAULT__
+
+openstack coe cluster template update k8s-flan-small-$COREOSMAJ-$newk8svers-containerd-local-reg replace insecure_registry="${docker_registry_magnum}"
+
 #Create cluster template with k8s version $k8svers
 openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$k8svers \
 --image Fedora-CoreOS-$COREOSMAJ \
