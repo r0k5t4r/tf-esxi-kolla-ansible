@@ -169,6 +169,7 @@ rancher/hyperkube:v1.21.7-rancher1
 rancher/hyperkube:v1.23.15-rancher1
 rancher/hyperkube:v1.23.3-rancher1
 rancher/hyperkube:v1.23.8-rancher1
+rancher/hyperkube:v1.24.16-rancher1
 EOF
 
 # create cinder csi yml file
