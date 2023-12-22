@@ -107,3 +107,23 @@ terraform destroy --auto-approve
 Please let me know in case you have problems with the deployment or ideas for improvements.
 
 Have fun. :)
+
+Quick Tip:
+
+if you occasionally discard the deployment and start from scratch, it can be helpful to clone the seed VM to avoid constantly downloading the contents of the docker registry. This saves a lot of time. To do this, you can simply connect to your ESXi server via SSH and change to the VMDK directory.
+
+Example:
+
+cd /vmfs/volumes/datastore01
+
+and clone the hard disk of the VM:
+
+mkdir registry
+cd seed
+vmkfstools -i seed.vmdk ../registry/registry.vmdk
+cp seed.vmx ../registry/registry.vmx
+cd ..
+cd registry
+sed -i 's/seed/registry/g registry.vmx
+
+Then you simply have to register the cloned VMDK via the ESXi Host Client (web interface). And subsequently adjust the IP address of the cloned VM.
