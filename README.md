@@ -126,4 +126,4 @@ cd ..
 cd registry
 sed -i 's/seed/registry/g registry.vmx
 
-Then you simply have to register the cloned VMDK via the ESXi Host Client (web interface). And subsequently adjust the IP address of the cloned VM.
+Then you simply have to register the cloned VMDK via the ESXi Host Client (web interface). Power it on and subsequently adjust the IP addresses and hostname e.g. using nmtui of the cloned VM.
