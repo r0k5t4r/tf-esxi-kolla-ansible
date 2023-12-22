@@ -114,10 +114,14 @@ if you occasionally discard the deployment and start from scratch, it can be hel
 
 Example:
 
+```ruby
+ssh root@<ip_of_esxi>
 cd /vmfs/volumes/datastore01
+```
 
 and clone the hard disk of the VM:
 
+```ruby
 mkdir registry
 cd seed
 vmkfstools -i seed.vmdk ../registry/registry.vmdk
@@ -125,5 +129,6 @@ cp seed.vmx ../registry/registry.vmx
 cd ..
 cd registry
 sed -i 's/seed/registry/g registry.vmx
+```
 
 Then you simply have to register the cloned VMDK via the ESXi Host Client (web interface). Power it on and subsequently adjust the IP addresses and hostname e.g. using nmtui of the cloned VM.
