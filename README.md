@@ -1,4 +1,4 @@
-# Deploy OpenStack Yoga, Zed or Antelope (2023.1) on a single ESXi node, no vCenter required, with Kolla-Ansible using Terraform and Cloud-init
+# Deploy OpenStack Yoga, Zed, Antelope (2023.1) or Bobcat (2023.2) on a single ESXi node, no vCenter required, with Kolla-Ansible using Terraform and Cloud-init
 
 This Terraform project can deploy an all-in-one or multinode OpenStack Cluster on an ESXi host. It will take complete care of this by using the Terraform provider terraform-provider-esxi from josenk:
 
@@ -12,7 +12,7 @@ The project does the following:
 - By default install an NFS Server, Kolla-Ansible, a local docker registry and deploy OpenStack via Kolla-Ansible
 - Includes scripts to deploy additional services like Magnum, Octavia etc.
 
-By default it will download the official Rocky Linux 9.x Vagrantbox, but you can easily adjust this and many others setings in your terraform.tfvars file. Rocky Linux 9.x is supported for OpenStack Yoga, Zed and Antelope (2023.1). You won't need Vagrant for this to work. Once the Vagrantbox has been downloaded it will be extracted using tar, nested hardware virtualization will be enabled and finally it will be uploaded to your ESXi host. After that the VM will be powered on to install cloud-init and last but not least the vm will be powered off so that it can be used as template. The actual VMs required for the OpenStack multinode cluster will be cloned from this template.
+By default it will download the official Rocky Linux 9.x Vagrantbox, but you can easily adjust this and many others setings in your terraform.tfvars file. Rocky Linux 9.x is supported for OpenStack Yoga, Zed, Antelope (2023.1) and Bobcat (2023.2). You won't need Vagrant for this to work. Once the Vagrantbox has been downloaded it will be extracted using tar, nested hardware virtualization will be enabled and finally it will be uploaded to your ESXi host. After that the VM will be powered on to install cloud-init and last but not least the vm will be powered off so that it can be used as template. The actual VMs required for the OpenStack multinode cluster will be cloned from this template.
 
 In order to use this code you must have:
 1. An ESXi 7.x host with some free resources (RAM,CPU,DISK) and SSH enabled. You can also use an older version of ESXi but then you need to adjust the variable vmtemplate.hwvers = "13" in your terraform.tfvars file.
@@ -21,16 +21,16 @@ In order to use this code you must have:
 ```ruby
 PATH=$PATH:"/Applications/VMware OVF Tool/"
 ````
-4. A terraform.tfvars file. I have added example files for all-in-one and multinode for the OpenStack Antelope (2023.1) releases:
+4. A terraform.tfvars file. I have added example files for all-in-one and multinode for the OpenStack Bobcat (2023.2) release:
 
-   - terraform.antelope.all-in-one.tfvars
-   - terraform.antelope.multinode.tfvars
+   - terraform.bobcat.all-in-one.tfvars
+   - terraform.bobcat.multinode.tfvars
 
 The Terraform project was successfully tested on Windows 10 and MacOS. It should also work just fine under Linux. On Windows make sure that you have a tar binary in your Path. E.g. on Windows 2016 there is no tar by default, so you need to download it first.
 
-Below is the contents of the terraform.antelope.multinode.tfvars file. It will deploy a total of 5 VMs (3 control and 2 compute nodes). 
+Below is the contents of the terraform.bobcat.multinode.tfvars file. It will deploy a total of 6 VMs (1 seed, 3 control and 2 compute nodes). 
 
-The following services will be enabled:
+The following services are enabled by default:
   - Cinder: NFS
 
 You need to at least adjust the ESXi username, password, hostname, disk_store and all the IP adresses 192.168.2.x to match your local network. Be sure to read the comments before using or modifying the file. Just watch out for the comment:
@@ -41,9 +41,9 @@ This marks sections where you need to make adjustments to match your local envir
 
 The following examples work fine for me:
 
-[Multinode deployment of OpenStack Antelope (2023.1) Release](terraform.antelope.multinode.tfvars)
+[Multinode deployment of OpenStack Bobcat (2023.2) Release](terraform.bobcat.multinode.tfvars)
 
-[All-in-One deployment of OpenStack Antelope (2023.1) Release](terraform.antelope.all-in-one.tfvars)
+[All-in-One deployment of OpenStack Bobcat (2023.2) Release](terraform.bobcat.all-in-one.tfvars)
 
 In order to run this:
 
@@ -59,14 +59,14 @@ cd tf-esxi-kolla-ansible
 ```ruby
  terraform init
 ```
-5. Choose one of the example terraform.tfvars files. Make adjustments to the file to match your local environemnt. For example to deploy OpenStack release Antelope (2023.1) just run: 
+5. Choose one of the example terraform.tfvars files. Make adjustments to the file to match your local environemnt. For example to deploy OpenStack release Bobcat (2023.2) just run: 
 ```ruby
-terraform plan -var-file terraform.antelope.multinode.tfvars
+terraform plan -var-file terraform.bobcat.multinode.tfvars
 ```
 This will first check if there are any problems with the deployment.
 6. To actually deploy it run:
 ```ruby
-terraform apply -var-file terraform.antelope.multinode.tfvars
+terraform apply -var-file terraform.bobcat.multinode.tfvars
 ```
 At the end of the deployment Terraform will output valuable information on how to interact with your OpenStack deployment. You can lookup this info again by running:
 ```ruby
@@ -108,7 +108,7 @@ Please let me know in case you have problems with the deployment or ideas for im
 
 Have fun. :)
 
-Quick Tip:
+<h2>Quick Tip:</h2>
 
 if you occasionally discard the deployment and start from scratch, it can be helpful to clone the seed VM to avoid constantly downloading the contents of the docker registry. This saves a lot of time. To do this, you can simply connect to your ESXi server via SSH and change to the VMDK directory.
 

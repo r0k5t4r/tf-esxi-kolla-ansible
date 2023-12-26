@@ -1,4 +1,4 @@
-# This will deploy OpenStack Antelope (2023.1) Release all-in-one node
+# This will deploy OpenStack Antelope (2023.2) Release all-in-one node
 
 esxi_env = {
   # **** Adjust this to match your environment *****
@@ -51,14 +51,16 @@ deploy_env = {
   deploy_local_registry = true
   # Pull and push images to a local docker registry. Will be always be done if deploy_local_registry = true.
   pull_local_registry = true
+  # Pull and push Magnum images to a local docker registry.
+  pull_magnum_local_registry = false
 }
 
 openstack_env = {
-  # Tested with OpenStack Release Antelope (2023.1)
+  # Tested with OpenStack Release Antelope (2023.2)
   # Make sure to also adjust kolla_base_distro = rocky when using Zed or newer!
-  release = "2023.1"
+  release = "2023.2"
   # If you have enough resources you can deploy on multiple nodes, if not use all-in-one
-  deployment = "multinode"
+  deployment = "all-in-one"
   # We create virtual networks (portgroups) on the ESXi host for the various OpenStack networks.
   network_interface = "eth00"
   # eth01 will be used for octavia
@@ -100,7 +102,10 @@ openstack_env = {
   docker_registry_magnum = "192.168.2.140:4000"
   nfs_uid = "42407"
   EXT_NET = "public1"
-  om_enable_rabbitmq_high_availability = "true"
+  # You can now enable the usage of quorum queues in RabbitMQ for all services by setting the variable om_enable_rabbitmq_quorum_queues to true. 
+  # Notice that you can’t use quorum queues and high availability at the same time. This is caught by a precheck. 
+  # This feature is enabled by default to improve reliability of the messaging queues.
+  om_enable_rabbitmq_high_availability = "false"
 }
  
 # You can leave below as is. Adjust only if you know what you are doing. :)
@@ -170,108 +175,6 @@ vms = {
     ip_nfs1 = "192.168.9.140"
     ip_nfs1_netmask = "255.255.255.0"
     memsize = 8192
-    netmask = "255.255.255.0"
-    numvcpus = 4
-    password = "vagrant"
-    user = "vagrant"
-    nic_type = "vmxnet3"
-  }
-  control01 = {
-    boot_disk_size = 100
-    clone_from_vm = "template-rocky9"
-    disk_store = "truenas_ssd_01"
-    domain_name = "lan.local"
-    guest_name = "control01"
-    hostname = "control01"
-    ip = "192.168.2.141"
-    ip_api = "192.168.20.141"
-    ip_octavia = "192.168.43.141"
-    ip_tunnel = "192.168.50.141"
-    ip_nfs1 = "192.168.9.141"
-    ip_nfs1_netmask = "255.255.255.0"
-    memsize = 16384
-    netmask = "255.255.255.0"
-    numvcpus = 4
-    password = "vagrant"
-    user = "vagrant"
-    nic_type = "vmxnet3"
-  }
-  control02 = {
-    boot_disk_size = 100
-    clone_from_vm = "template-rocky9"
-    disk_store = "truenas_ssd_01"
-    domain_name = "lan.local"
-    guest_name = "control02"
-    hostname = "control02"
-    ip = "192.168.2.142"
-    ip_api = "192.168.20.142"
-    ip_octavia = "192.168.43.142"
-    ip_tunnel = "192.168.50.142"
-    ip_nfs1 = "192.168.9.142"
-    ip_nfs1_netmask = "255.255.255.0"
-    memsize = 16384
-    netmask = "255.255.255.0"
-    numvcpus = 4
-    password = "vagrant"
-    user = "vagrant"
-    nic_type = "vmxnet3"
-  }
-  control03 = {
-    boot_disk_size = 100
-    clone_from_vm = "template-rocky9"
-    disk_store = "truenas_ssd_01"
-    domain_name = "lan.local"
-    guest_name = "control03"
-    hostname = "control03"
-    ip = "192.168.2.143"
-    ip_api = "192.168.20.143"
-    ip_octavia = "192.168.43.143"
-    ip_tunnel = "192.168.50.143"
-    ip_nfs1 = "192.168.9.143"
-    ip_nfs1_netmask = "255.255.255.0"
-    memsize = 16384
-    netmask = "255.255.255.0"
-    numvcpus = 4
-    password = "vagrant"
-    user = "vagrant"
-    nic_type = "vmxnet3"
-  }
-  compute01 = {
-    boot_disk_size = 100
-    clone_from_vm = "template-rocky9"
-    disk_store = "truenas_ssd_01"
-    domain_name = "lan.local"
-    guest_name = "compute01"
-    hostname = "compute01"
-    ip = "192.168.2.144"
-    ip_api = "192.168.20.144"
-    # the octacvia ip is not required on a compute node but the cloud-init metadata requires it!!!
-    ip_octavia = "192.168.43.144"
-    ip_tunnel = "192.168.50.144"
-    ip_nfs1 = "192.168.9.144"
-    ip_nfs1_netmask = "255.255.255.0"
-    memsize = 12288
-    netmask = "255.255.255.0"
-    numvcpus = 4
-    password = "vagrant"
-    user = "vagrant"
-    nic_type = "vmxnet3"
-  }
-  compute02 = {
-    boot_disk_size = 100
-    clone_from_vm = "template-rocky9"
-    disk_store = "truenas_ssd_01"
-    domain_name = "lan.local"
-    guest_name = "compute02"
-    hostname = "compute02"
-    ip = "192.168.2.145"
-    ip_api = "192.168.20.145"
-    # the octacvia ip is not required on a compute node but the cloud-init metadata requires it!!!
-    ip_octavia = "192.168.43.144"
-    ip_tunnel = "192.168.50.145"
-    ip_nfs1 = "192.168.9.145"
-    ip_nfs1_netmask = "255.255.255.0"
-    memsize = 12288
     netmask = "255.255.255.0"
     numvcpus = 4
     password = "vagrant"

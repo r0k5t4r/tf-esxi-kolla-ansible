@@ -24,6 +24,9 @@ pip install -U pip
 
 #Install Ansible. Kolla Ansible requires at least Ansible 4 and supports up to 8 with Antelope 2023.1.
 case $release in
+  2023.2)
+  pip install 'ansible-core>=2.14,<2.16'
+  ;;
   2023.1)
   pip install 'ansible>=6,<8'
   ;;

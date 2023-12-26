@@ -58,6 +58,7 @@ variable "deploy_env" {
       deploy_local_registry = bool
       use_local_registry = bool
       pull_local_registry = bool
+      pull_magnum_local_registry = bool
     })
     default = {
         deploy_nfssrv = true
@@ -66,6 +67,7 @@ variable "deploy_env" {
         install_kolla = true
         use_local_registry = true
         pull_local_registry = true
+        pull_magnum_local_registry = true
     }
 }
 

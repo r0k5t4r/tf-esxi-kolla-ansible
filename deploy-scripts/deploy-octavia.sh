@@ -15,6 +15,19 @@ time sh ~/deploy-scripts/download-svc.sh $option $kolla_mod
 . $HOME/activate.sh
 . /etc/kolla/admin-openrc.sh
 
+# Enable Redis for Bobcat 2023.2
+# Octavia requires Redis for the jobboard being enabled, which is default as of Kolla-Ansible 2023.2
+# Alternatively, the octavia jobboard can be disabled in the globals.yml
+# https://docs.openstack.org/octavia/latest/install/install-amphorav2.html
+# enable_octavia_jobboard: "no"
+# see: https://bugs.launchpad.net/kolla-ansible/+bug/2046382
+
+# enable_redis: "yes"
+if [ $release = "2023.2" ]; then
+    sed -i 's/#enable_redis:.*/enable_redis: "yes"/' /etc/kolla/globals.yml
+    tags="common,horizon,octavia,neutron,redis"
+fi
+
 #Modify octavia.yml
 if [ $release = "yoga" ]; then
     sed -e '/octavia_provider_drivers: "amphora:Amphora provider"/ s/^#*/#/' -i /etc/kolla/globals.d/octavia.yml

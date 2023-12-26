@@ -438,6 +438,7 @@ resource "null_resource" "kolla-env-script" {
     deploy_local_registry = var.deploy_env.deploy_local_registry
     use_local_registry = var.deploy_env.use_local_registry
     pull_local_registry = var.deploy_env.pull_local_registry
+    pull_magnum_local_registry = var.deploy_env.pull_magnum_local_registry
     om_enable_rabbitmq_high_availability = var.openstack_env.om_enable_rabbitmq_high_availability
   })
     destination = "/home/vagrant/env.sh"
@@ -487,6 +488,7 @@ resource "null_resource" "kolla-install-script" {
     deploy_local_registry = var.deploy_env.deploy_local_registry
     use_local_registry = var.deploy_env.use_local_registry
     pull_local_registry = var.deploy_env.pull_local_registry
+    pull_magnum_local_registry = var.deploy_env.pull_magnum_local_registry
     om_enable_rabbitmq_high_availability = var.openstack_env.om_enable_rabbitmq_high_availability
   })
     destination = "/home/vagrant/install-kolla.sh"
