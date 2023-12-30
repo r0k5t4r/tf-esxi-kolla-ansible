@@ -28,79 +28,79 @@ case $release in
     # see "container_infra_prefix" at https://docs.openstack.org/magnum/2023.2/user/ for more info
     # there are a few containers missing in the doc above, they have been added in addition
     cat > magnum_docker_images.txt << EOF
-    coredns/coredns:1.6.6
-    docker.io/coredns/coredns:1.3.1
-    docker.io/coredns/coredns:1.6.6
-    docker.io/coredns/coredns:1.9.3
-    docker.io/grafana/grafana:5.1.5
-    docker.io/jettech/kube-webhook-certgen:v1.0.0
-    docker.io/k8scloudprovider/cinder-csi-plugin:v1.18.0
-    docker.io/k8scloudprovider/k8s-keystone-auth:v1.18.0
-    docker.io/k8scloudprovider/openstack-cloud-controller-manager:v1.18.0
-    docker.io/k8scloudprovider/openstack-cloud-controller-manager:v1.23.1
-    docker.io/openstackmagnum/cluster-autoscaler:v1.18.1
-    docker.io/openstackmagnum/kubernetes-apiserver
-    docker.io/openstackmagnum/kubernetes-controller-manager
-    docker.io/openstackmagnum/kubernetes-kubelet
-    docker.io/openstackmagnum/kubernetes-proxy
-    docker.io/openstackmagnum/kubernetes-scheduler
-    docker.io/planetlabs/draino:abf028a
-    docker.io/prom/node-exporter:latest
-    docker.io/prom/prometheus:latest
-    docker.io/squareup/ghostunnel:v1.5.2
-    docker.io/traefik:v1.7.28
-    gcr.io/google-containers/cluster-proportional-autoscaler-amd64:1.1.2
-    gcr.io/google_containers/cluster-proportional-autoscaler-amd64:1.1.2
-    gcr.io/google_containers/kubernetes-dashboard-amd64:v1.5.1
-    gcr.io/google_containers/metrics-server-amd64:v0.3.6
-    gcr.io/google_containers/pause:3.1
-    grafana/grafana:5.1.5
-    k8scloudprovider/cinder-csi-plugin:v1.23.0
-    k8scloudprovider/cinder-csi-plugin:v1.23.4
-    k8scloudprovider/k8s-keystone-auth:v1.18.0
-    k8scloudprovider/k8s-keystone-auth:v1.23.4
-    k8scloudprovider/magnum-auto-healer:v1.23.4
-    k8scloudprovider/octavia-ingress-controller:v1.23.4
-    k8scloudprovider/openstack-cloud-controller-manager:v1.23.1
-    k8scloudprovider/openstack-cloud-controller-manager:v1.23.4
-    k8s.gcr.io/hyperkube:v1.18.2
-    k8s.gcr.io/metrics-server/metrics-server:v0.5.2
-    k8s.gcr.io/node-problem-detector.v0.6.2
-    k8s.gcr.io/node-problem-detector:v0.6.2
-    k8s.gcr.io/sig-storage/csi-attacher:v3.3.0
-    k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.4.0
-    k8s.gcr.io/sig-storage/csi-provisioner:v3.0.0
-    k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
-    k8s.gcr.io/sig-storage/csi-snapshotter:v4.0.1
-    k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.1
-    k8s.gcr.io/sig-storage/livenessprobe:v2.5.0
-    kubernetesui/dashboard:v2.0.0
-    kubernetesui/metrics-scraper:v1.0.4
-    mirrorgooglecontainers/heapster-amd64:v1.4.2
-    openstack-cloud-controller-manager:v1.23.1
-    openstackmagnum/cluster-autoscaler:v1.22.0
-    openstackmagnum/heat-container-agent:wallaby-stable-1
-    prom/node-exporter:v0.15.2
-    prom/prometheus:v1.8.2
-    quay.io/calico/cni:v3.13.1
-    quay.io/calico/kube-controllers:v3.13.1
-    quay.io/calico/node:v3.13.1
-    quay.io/calico/pod2daemon-flexvol:v3.13.1
-    quay.io/coreos/etcd:v3.4.6
-    quay.io/coreos/flannel-cni:v0.15.1
-    quay.io/coreos/flannel-cni:v0.3.0
-    quay.io/coreos/flannel:v0.3.0
-    quay.io/k8scsi/csi-attacher:v2.2.0
-    quay.io/k8scsi/csi-node-driver-registrar:v1.1.0
-    quay.io/k8scsi/csi-provisioner:v1.4.0
-    quay.io/k8scsi/csi-resizer:v0.3.1
-    quay.io/k8scsi/csi-snapshotter:v1.2.2
-    quay.io/prometheus/alertmanager:v0.20.0
-    quay.io/prometheus/prometheus:v2.15.2
-    rancher/coreos-flannel-cni:v0.3.0
-    rancher/hyperkube:v1.26.8-rancher1
-    rancher/hyperkube:v1.25.9-rancher1
-    EOF
+coredns/coredns:1.6.6
+docker.io/coredns/coredns:1.3.1
+docker.io/coredns/coredns:1.6.6
+docker.io/coredns/coredns:1.9.3
+docker.io/grafana/grafana:5.1.5
+docker.io/jettech/kube-webhook-certgen:v1.0.0
+docker.io/k8scloudprovider/cinder-csi-plugin:v1.18.0
+docker.io/k8scloudprovider/k8s-keystone-auth:v1.18.0
+docker.io/k8scloudprovider/openstack-cloud-controller-manager:v1.18.0
+docker.io/k8scloudprovider/openstack-cloud-controller-manager:v1.23.1
+docker.io/openstackmagnum/cluster-autoscaler:v1.18.1
+docker.io/openstackmagnum/kubernetes-apiserver
+docker.io/openstackmagnum/kubernetes-controller-manager
+docker.io/openstackmagnum/kubernetes-kubelet
+docker.io/openstackmagnum/kubernetes-proxy
+docker.io/openstackmagnum/kubernetes-scheduler
+docker.io/planetlabs/draino:abf028a
+docker.io/prom/node-exporter:latest
+docker.io/prom/prometheus:latest
+docker.io/squareup/ghostunnel:v1.5.2
+docker.io/traefik:v1.7.28
+gcr.io/google-containers/cluster-proportional-autoscaler-amd64:1.1.2
+gcr.io/google_containers/cluster-proportional-autoscaler-amd64:1.1.2
+gcr.io/google_containers/kubernetes-dashboard-amd64:v1.5.1
+gcr.io/google_containers/metrics-server-amd64:v0.3.6
+gcr.io/google_containers/pause:3.1
+grafana/grafana:5.1.5
+k8scloudprovider/cinder-csi-plugin:v1.23.0
+k8scloudprovider/cinder-csi-plugin:v1.23.4
+k8scloudprovider/k8s-keystone-auth:v1.18.0
+k8scloudprovider/k8s-keystone-auth:v1.23.4
+k8scloudprovider/magnum-auto-healer:v1.23.4
+k8scloudprovider/octavia-ingress-controller:v1.23.4
+k8scloudprovider/openstack-cloud-controller-manager:v1.23.1
+k8scloudprovider/openstack-cloud-controller-manager:v1.23.4
+k8s.gcr.io/hyperkube:v1.18.2
+k8s.gcr.io/metrics-server/metrics-server:v0.5.2
+k8s.gcr.io/node-problem-detector.v0.6.2
+k8s.gcr.io/node-problem-detector:v0.6.2
+k8s.gcr.io/sig-storage/csi-attacher:v3.3.0
+k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.4.0
+k8s.gcr.io/sig-storage/csi-provisioner:v3.0.0
+k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
+k8s.gcr.io/sig-storage/csi-snapshotter:v4.0.1
+k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.1
+k8s.gcr.io/sig-storage/livenessprobe:v2.5.0
+kubernetesui/dashboard:v2.0.0
+kubernetesui/metrics-scraper:v1.0.4
+mirrorgooglecontainers/heapster-amd64:v1.4.2
+openstack-cloud-controller-manager:v1.23.1
+openstackmagnum/cluster-autoscaler:v1.22.0
+openstackmagnum/heat-container-agent:wallaby-stable-1
+prom/node-exporter:v0.15.2
+prom/prometheus:v1.8.2
+quay.io/calico/cni:v3.13.1
+quay.io/calico/kube-controllers:v3.13.1
+quay.io/calico/node:v3.13.1
+quay.io/calico/pod2daemon-flexvol:v3.13.1
+quay.io/coreos/etcd:v3.4.6
+quay.io/coreos/flannel-cni:v0.15.1
+quay.io/coreos/flannel-cni:v0.3.0
+quay.io/coreos/flannel:v0.3.0
+quay.io/k8scsi/csi-attacher:v2.2.0
+quay.io/k8scsi/csi-node-driver-registrar:v1.1.0
+quay.io/k8scsi/csi-provisioner:v1.4.0
+quay.io/k8scsi/csi-resizer:v0.3.1
+quay.io/k8scsi/csi-snapshotter:v1.2.2
+quay.io/prometheus/alertmanager:v0.20.0
+quay.io/prometheus/prometheus:v2.15.2
+rancher/coreos-flannel-cni:v0.3.0
+rancher/hyperkube:v1.26.8-rancher1
+rancher/hyperkube:v1.25.9-rancher1
+EOF
     ;;
   2023.1)
     k8svers="v1.23.3"
