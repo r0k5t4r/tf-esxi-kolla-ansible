@@ -273,7 +273,9 @@ allowVolumeExpansion: true
 EOF
 
 # pull all magnum container images
-for img in `cat magnum_docker_images_$release.txt`; do echo sudo docker pull $img; sudo docker pull $img;done
+if [ $pull_magnum_local_registry = "true" ]; then
+  for img in `cat magnum_docker_images_$release.txt`; do echo sudo docker pull $img; sudo docker pull $img;done
+fi
 
 # create script to push magnum docker images to central docker registry
 cat > ~/push_magnum_docker_img.sh << EOF
@@ -286,7 +288,10 @@ docker images --format "{{.Repository}} {{.Tag}}" | grep -v ${release} | grep -v
         docker push ${docker_registry_magnum}/\${newimg}:\${tag}
 done
 EOF
-sudo sh push_magnum_docker_img.sh
+
+if [ $pull_magnum_local_registry = "true" ]; then
+  sudo sh push_magnum_docker_img.sh
+fi
 
 cat > create_magnum_templates.sh << EOF
 
