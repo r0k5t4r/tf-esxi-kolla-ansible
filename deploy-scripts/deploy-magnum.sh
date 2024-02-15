@@ -369,23 +369,6 @@ openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$k8svers-local-r
 
 openstack coe cluster template update k8s-flan-small-$COREOSMAJ-$k8svers-local-reg replace insecure_registry="${docker_registry_magnum}"
 
-#Create cluster template with k8s and containerd CRI
-openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$newk8svers-containerd \
---image Fedora-CoreOS-$COREOSMAJ \
---keypair mykey \
---external-network ${EXT_NET} \
---fixed-network demo-net \
---fixed-subnet demo-subnet \
---dns-nameserver ${neutron_ext_net_dns} \
---flavor m1.kubernetes.small \
---master-flavor m1.kubernetes.small \
---volume-driver cinder \
---docker-volume-size 10 \
---network-driver flannel \
---docker-storage-driver overlay2 \
---coe kubernetes \
---labels container_runtime=containerd,docker_volume_type=__DEFAULT__
-
 #Create cluster template with k8s version $k8svers, containerd CRI and Master LB FIP - REQUIRES OCTAVIA!!!
 openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$k8svers-octavia-containerd-mlb-fip \
 --image Fedora-CoreOS-$COREOSMAJ \
@@ -403,7 +386,7 @@ openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$k8svers-octavia
 --coe kubernetes \
 --master-lb-enabled \
 --floating-ip-disabled \
---labels kube_tag=$newk8svers-rancher1,hyperkube_prefix=docker.io/rancher/,container_runtime=containerd,master_lb_floating_ip_enabled=true,docker_volume_type=__DEFAULT__
+--labels kube_tag=$k8svers-rancher1,hyperkube_prefix=docker.io/rancher/,container_runtime=containerd,master_lb_floating_ip_enabled=true,docker_volume_type=__DEFAULT__
 
 #Create cluster template with k8s version $newk8svers, containerd CRI and Master LB FIP - REQUIRES OCTAVIA!!!
 openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$newk8svers-octavia-containerd-mlb-fip \
