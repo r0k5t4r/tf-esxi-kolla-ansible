@@ -26,6 +26,9 @@ time sh ~/deploy-scripts/download-svc.sh $option $kolla_mod
 if [ $release = "2023.2" ]; then
     sed -i 's/#enable_redis:.*/enable_redis: "yes"/' /etc/kolla/globals.yml
     tags="common,horizon,octavia,neutron,redis"
+    kolla_mod2="redis"
+    #Download kolla docker container
+    time sh ~/deploy-scripts/download-svc.sh $option $kolla_mod2
 fi
 
 #Modify octavia.yml
