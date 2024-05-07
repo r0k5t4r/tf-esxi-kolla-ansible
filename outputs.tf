@@ -12,12 +12,12 @@ output "openstack_int_vip" {
     }
 }
 
-output "openstack_octavia_vlan" {
-    description = "OpenStack Octavia VLAN"
-    value = {
-        OpenStack_octavia_vlan = var.portgroups["TF-OpenStack-2-Octavia-VLAN"].pg_vlan
-    }
-}
+#output "openstack_octavia_vlan" {
+#    description = "OpenStack Octavia VLAN"
+#    value = {
+#        OpenStack_octavia_vlan = var.portgroups["TF-OpenStack-2-Octavia-VLAN"].pg_vlan
+#    }
+#s}
 
 output "terraform_kolla_ansible_deploy_options" {
     description = "Terraform Kolla-Ansible Deployment Options"
