@@ -5,8 +5,8 @@ source ~/env.sh
 EXT_SUBNET=$(openstack network show $EXT_NET -f value -c subnets | awk -F \' '{print $2}')
 
 # see https://docs.openstack.org/kolla-ansible/yoga/reference/networking/octavia.html for more information
-kolla_mod="cinder"
-tags="glance,cinder,nova"
+kolla_mod="manila"
+tags="glance,cinder,nova,manila"
 option="--tags"
 
 #Download kolla docker container
