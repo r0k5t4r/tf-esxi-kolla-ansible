@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # source information about kolla-ansible
 source ~/env.sh
 
@@ -6,10 +8,10 @@ kolla_mod="magnum"
 tags="common,horizon,magnum"
 option="--tags"
 
-#Download kolla docker container
+# Download kolla docker container
 sh ~/deploy-scripts/download-svc.sh $option $kolla_mod
 
-#Create magnum.conf file. In this file you can define additional settings for Magnum
+# Create magnum.conf file. In this file you can define additional settings for Magnum
 cat > /etc/kolla/config/magnum.conf << EOF
 [trust]
 cluster_user_trust = True
@@ -21,98 +23,21 @@ case $release in
 2023.2)
     k8svers="v1.25.9"
     newk8svers="v1.26.8"
-    #Fedora Coreos 38
+    # Fedora Coreos 38
     COREOSMAJ="38"
     COREOSVERS="$COREOSMAJ.20230806.3.0"
-    # create file containing all containers required by magnum
-    # see "container_infra_prefix" at https://docs.openstack.org/magnum/2023.2/user/ for more info
-    # there are a few containers missing in the doc above, they have been added in addition
-    cat > magnum_docker_images.txt << EOF
-coredns/coredns:1.6.6
-docker.io/coredns/coredns:1.3.1
-docker.io/coredns/coredns:1.6.6
-docker.io/coredns/coredns:1.9.3
-docker.io/grafana/grafana:5.1.5
-docker.io/jettech/kube-webhook-certgen:v1.0.0
-docker.io/k8scloudprovider/cinder-csi-plugin:v1.18.0
-docker.io/k8scloudprovider/k8s-keystone-auth:v1.18.0
-docker.io/k8scloudprovider/openstack-cloud-controller-manager:v1.18.0
-docker.io/k8scloudprovider/openstack-cloud-controller-manager:v1.23.1
-docker.io/openstackmagnum/cluster-autoscaler:v1.18.1
-docker.io/openstackmagnum/kubernetes-apiserver
-docker.io/openstackmagnum/kubernetes-controller-manager
-docker.io/openstackmagnum/kubernetes-kubelet
-docker.io/openstackmagnum/kubernetes-proxy
-docker.io/openstackmagnum/kubernetes-scheduler
-docker.io/planetlabs/draino:abf028a
-docker.io/prom/node-exporter:latest
-docker.io/prom/prometheus:latest
-docker.io/squareup/ghostunnel:v1.5.2
-docker.io/traefik:v1.7.28
-gcr.io/google-containers/cluster-proportional-autoscaler-amd64:1.1.2
-gcr.io/google_containers/cluster-proportional-autoscaler-amd64:1.1.2
-gcr.io/google_containers/kubernetes-dashboard-amd64:v1.5.1
-gcr.io/google_containers/metrics-server-amd64:v0.3.6
-gcr.io/google_containers/pause:3.1
-grafana/grafana:5.1.5
-k8scloudprovider/cinder-csi-plugin:v1.23.0
-k8scloudprovider/cinder-csi-plugin:v1.23.4
-k8scloudprovider/k8s-keystone-auth:v1.18.0
-k8scloudprovider/k8s-keystone-auth:v1.23.4
-k8scloudprovider/magnum-auto-healer:v1.23.4
-k8scloudprovider/octavia-ingress-controller:v1.23.4
-k8scloudprovider/openstack-cloud-controller-manager:v1.23.1
-k8scloudprovider/openstack-cloud-controller-manager:v1.23.4
-k8s.gcr.io/hyperkube:v1.18.2
-k8s.gcr.io/metrics-server/metrics-server:v0.5.2
-k8s.gcr.io/node-problem-detector.v0.6.2
-k8s.gcr.io/node-problem-detector:v0.6.2
-k8s.gcr.io/sig-storage/csi-attacher:v3.3.0
-k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.4.0
-k8s.gcr.io/sig-storage/csi-provisioner:v3.0.0
-k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
-k8s.gcr.io/sig-storage/csi-snapshotter:v4.0.1
-k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.1
-k8s.gcr.io/sig-storage/livenessprobe:v2.5.0
-kubernetesui/dashboard:v2.0.0
-kubernetesui/metrics-scraper:v1.0.4
-mirrorgooglecontainers/heapster-amd64:v1.4.2
-openstack-cloud-controller-manager:v1.23.1
-openstackmagnum/cluster-autoscaler:v1.22.0
-openstackmagnum/heat-container-agent:wallaby-stable-1
-prom/node-exporter:v0.15.2
-prom/prometheus:v1.8.2
-quay.io/calico/cni:v3.13.1
-quay.io/calico/kube-controllers:v3.13.1
-quay.io/calico/node:v3.13.1
-quay.io/calico/pod2daemon-flexvol:v3.13.1
-quay.io/coreos/etcd:v3.4.6
-quay.io/coreos/flannel-cni:v0.15.1
-quay.io/coreos/flannel-cni:v0.3.0
-quay.io/coreos/flannel:v0.3.0
-quay.io/k8scsi/csi-attacher:v2.2.0
-quay.io/k8scsi/csi-node-driver-registrar:v1.1.0
-quay.io/k8scsi/csi-provisioner:v1.4.0
-quay.io/k8scsi/csi-resizer:v0.3.1
-quay.io/k8scsi/csi-snapshotter:v1.2.2
-quay.io/prometheus/alertmanager:v0.20.0
-quay.io/prometheus/prometheus:v2.15.2
-rancher/coreos-flannel-cni:v0.3.0
-rancher/hyperkube:v1.26.8-rancher1
-rancher/hyperkube:v1.25.9-rancher1
-EOF
     ;;
-  2023.1)
+2023.1)
     k8svers="v1.23.3"
     newk8svers="v1.24.16"
-    #Fedora Coreos 37
+    # Fedora Coreos 37
     COREOSMAJ="37"
     COREOSVERS="$COREOSMAJ.20221127.3.0"
     ;;
-  *)
+*)
     k8svers="v1.21.11"
     k8slabels=""
-    #Fedora Coreos 35
+    # Fedora Coreos 35
     COREOSMAJ="35"
     COREOSVERS="$COREOSMAJ.20220424.3.0"
     ;;
@@ -125,13 +50,13 @@ COREOSFILE="fedora-coreos-$COREOSVERS-openstack.x86_64.qcow2"
 COREOSXZ="$COREOSFILE.xz"
 COREOSDLURL="https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/$COREOSVERS/x86_64/$COREOSXZ"
 
-#Download Fedora CoreOS images
+# Download Fedora CoreOS images
 echo "Downloading Fedora CoreOS $COREOSMAJ..."
 curl -k0 $COREOSDLURL -o $COREOSXZ
 echo "Extracting Fedora CoreOS $COREOSMAJ..."
 unxz $COREOSXZ
 
-#Upload Fedora Core OS image to glance
+# Upload Fedora Core OS image to glance
 echo "Uploading Fedora CoreOS $COREOSMAJ to Glance..."
 openstack image create Fedora-CoreOS-$COREOSMAJ \
 --public \
@@ -140,7 +65,7 @@ openstack image create Fedora-CoreOS-$COREOSMAJ \
 --property os_distro='fedora-coreos' \
 --file=$COREOSFILE --progress
 
-#Create small Flavor to use with K8s
+# Create small Flavor to use with K8s
 openstack flavor create m1.kubernetes.small \
 --disk 10 \
 --vcpu 1 \
@@ -148,7 +73,7 @@ openstack flavor create m1.kubernetes.small \
 --public \
 --description "kubernetes small flavor"
 
-#Create medium Flavor to use with K8s
+# Create medium Flavor to use with K8s
 openstack flavor create m1.kubernetes.med \
 --disk 20 \
 --vcpu 2 \
@@ -156,7 +81,7 @@ openstack flavor create m1.kubernetes.med \
 --public \
 --description "kubernetes medium flavor"
 
-#Create big flavor to use with K8s
+# Create big flavor to use with K8s
 openstack flavor create m1.kubernetes.big \
 --disk 40 \
 --vcpu 2 \
@@ -164,103 +89,17 @@ openstack flavor create m1.kubernetes.big \
 --public \
 --description "kubernetes big flavor"
 
-#Deploy kolla svc
+# Fix Bug
+# For more info see: https://lists.openstack.org/archives/list/openstack-discuss@lists.openstack.org/message/Z2Y47MLZCO6YTHOJQHDQXVTQV6HKG7RF/
+openstack role add --user=magnum_trustee_domain_admin --user-domain magnum --domain magnum admin
+
+# Deploy kolla svc
 sh ~/deploy-scripts/deploy-svc.sh $kolla_mod $tags
 
-#Install Openstack Magnum CLI client
+# Install Openstack Magnum CLI client
 pip install python-magnumclient python-heatclient
 
-# create file containing all containers required by magnum
-# see "container_infra_prefix" at https://docs.openstack.org/magnum/2023.2/user/ for more info
-# there are a few containers missing in the doc above, they have been added in addition
-cat > magnum_docker_images.txt << EOF
-coredns/coredns:1.6.6
-docker.io/coredns/coredns:1.3.1
-docker.io/coredns/coredns:1.6.6
-docker.io/coredns/coredns:1.9.3
-docker.io/grafana/grafana:5.1.5
-docker.io/jettech/kube-webhook-certgen:v1.0.0
-docker.io/k8scloudprovider/cinder-csi-plugin:v1.18.0
-docker.io/k8scloudprovider/k8s-keystone-auth:v1.18.0
-docker.io/k8scloudprovider/openstack-cloud-controller-manager:v1.18.0
-docker.io/k8scloudprovider/openstack-cloud-controller-manager:v1.23.1
-docker.io/openstackmagnum/cluster-autoscaler:v1.18.1
-docker.io/openstackmagnum/kubernetes-apiserver
-docker.io/openstackmagnum/kubernetes-controller-manager
-docker.io/openstackmagnum/kubernetes-kubelet
-docker.io/openstackmagnum/kubernetes-proxy
-docker.io/openstackmagnum/kubernetes-scheduler
-docker.io/planetlabs/draino:abf028a
-docker.io/prom/node-exporter:latest
-docker.io/prom/prometheus:latest
-docker.io/squareup/ghostunnel:v1.5.2
-docker.io/traefik:v1.7.28
-gcr.io/google-containers/cluster-proportional-autoscaler-amd64:1.1.2
-gcr.io/google_containers/cluster-proportional-autoscaler-amd64:1.1.2
-gcr.io/google_containers/kubernetes-dashboard-amd64:v1.5.1
-gcr.io/google_containers/metrics-server-amd64:v0.3.6
-gcr.io/google_containers/pause:3.1
-grafana/grafana:5.1.5
-k8scloudprovider/cinder-csi-plugin:v1.23.0
-k8scloudprovider/cinder-csi-plugin:v1.23.4
-k8scloudprovider/k8s-keystone-auth:v1.18.0
-k8scloudprovider/k8s-keystone-auth:v1.23.4
-k8scloudprovider/magnum-auto-healer:v1.23.4
-k8scloudprovider/octavia-ingress-controller:v1.23.4
-k8scloudprovider/openstack-cloud-controller-manager:v1.23.1
-k8scloudprovider/openstack-cloud-controller-manager:v1.23.4
-k8s.gcr.io/hyperkube:v1.18.2
-k8s.gcr.io/metrics-server/metrics-server:v0.5.2
-k8s.gcr.io/node-problem-detector.v0.6.2
-k8s.gcr.io/node-problem-detector:v0.6.2
-k8s.gcr.io/sig-storage/csi-attacher:v3.3.0
-k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.4.0
-k8s.gcr.io/sig-storage/csi-provisioner:v3.0.0
-k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
-k8s.gcr.io/sig-storage/csi-snapshotter:v4.0.1
-k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.1
-k8s.gcr.io/sig-storage/livenessprobe:v2.5.0
-kubernetesui/dashboard:v2.0.0
-kubernetesui/metrics-scraper:v1.0.4
-mirrorgooglecontainers/heapster-amd64:v1.4.2
-openstack-cloud-controller-manager:v1.23.1
-openstackmagnum/cluster-autoscaler:v1.22.0
-openstackmagnum/heat-container-agent:wallaby-stable-1
-prom/node-exporter:v0.15.2
-prom/prometheus:v1.8.2
-quay.io/calico/cni:v3.13.1
-quay.io/calico/kube-controllers:v3.13.1
-quay.io/calico/node:v3.13.1
-quay.io/calico/pod2daemon-flexvol:v3.13.1
-quay.io/coreos/etcd:v3.4.6
-quay.io/coreos/flannel-cni:v0.15.1
-quay.io/coreos/flannel-cni:v0.3.0
-quay.io/coreos/flannel:v0.12.0-amd64
-quay.io/coreos/flannel:v0.15.1
-quay.io/coreos/flannel:v0.18.1
-quay.io/coreos/flannel:v0.21.5
-quay.io/coreos/flannel:v0.3.0
-quay.io/k8scsi/csi-attacher:v2.0.0
-quay.io/k8scsi/csi-attacher:v2.2.0
-quay.io/k8scsi/csi-node-driver-registrar:v1.1.0
-quay.io/k8scsi/csi-provisioner:v1.4.0
-quay.io/k8scsi/csi-resizer:v0.3.0
-quay.io/k8scsi/csi-resizer:v0.3.1
-quay.io/k8scsi/csi-snapshotter:v1.2.2
-quay.io/prometheus/alertmanager:v0.20.0
-quay.io/prometheus/prometheus:v2.15.2
-rancher/coreos-flannel-cni:v0.3.0
-rancher/hyperkube:v1.21.11-rancher1
-rancher/hyperkube:v1.21.7-rancher1
-rancher/hyperkube:v1.23.15-rancher1
-rancher/hyperkube:v1.23.3-rancher1
-rancher/hyperkube:v1.23.8-rancher1
-rancher/hyperkube:v1.24.16-rancher1
-rancher/hyperkube:v1.26.8-rancher1
-rancher/hyperkube:v1.25.9-rancher1
-EOF
-
-# create cinder csi yml file
+# Create cinder csi yml file
 cat > csi-cinder-sc.yml << EOF
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -272,143 +111,161 @@ provisioner: cinder.csi.openstack.org
 allowVolumeExpansion: true
 EOF
 
-# pull all magnum container images
-if [ $pull_magnum_local_registry = "true" ]; then
-  for img in `cat magnum_docker_images_$release.txt`; do echo sudo docker pull $img; sudo docker pull $img;done
-fi
+# Pull and push magnum container images only if pull_magnum_local_registry is true
+if [ "$pull_magnum_local_registry" = "true" ]; then
+    echo "Pulling Magnum container images as pull_magnum_local_registry is set to true..."
 
-# create script to push magnum docker images to central docker registry
-cat > ~/push_magnum_docker_img.sh << EOF
+    # Pull all magnum container images from the external file
+    while read -r img; do
+        # Skip empty lines and comments
+        [[ -z "$img" || "$img" =~ ^# ]] && continue
+        echo "Pulling $img..."
+        sudo docker pull $img
+    done < magnum_docker_images.txt
+
+    # Create script to push magnum docker images to central docker registry
+    cat > ~/push_magnum_docker_img.sh << EOF
+#!/bin/bash
 REGISTRY="${docker_registry_magnum}"
 docker images --format "{{.Repository}} {{.Tag}}" | grep -v ${release} | grep -v local | while read -r image tag; do
-        newimg=\`echo \${image} | rev | cut -d / -f 1 | rev\`
-        echo docker tag \${image}:\${tag} ${docker_registry_magnum}/\${newimg}:\${tag}
-        docker tag \${image}:\${tag} ${docker_registry_magnum}/\${newimg}:\${tag}
-        echo docker push ${docker_registry_magnum}/\${newimg}:\${tag}
-        docker push ${docker_registry_magnum}/\${newimg}:\${tag}
+    newimg=\$(echo \${image} | rev | cut -d / -f 1 | rev)
+    echo "Tagging \${image}:\${tag} as \${REGISTRY}/\${newimg}:\${tag}"
+    docker tag \${image}:\${tag} \${REGISTRY}/\${newimg}:\${tag}
+    echo "Pushing \${REGISTRY}/\${newimg}:\${tag}"
+    docker push \${REGISTRY}/\${newimg}:\${tag}
 done
 EOF
 
-if [ $pull_magnum_local_registry = "true" ]; then
-  sudo sh push_magnum_docker_img.sh
+    # Make the script executable
+    chmod +x ~/push_magnum_docker_img.sh
+
+    echo "Pushing Magnum container images to local registry..."
+    sudo sh ~/push_magnum_docker_img.sh
+else
+    echo "Skipping Magnum container image pull and push as pull_magnum_local_registry is not set to true."
 fi
 
+# Create cluster templates script
 cat > create_magnum_templates.sh << EOF
+#!/bin/bash
 
 # Cluster templates for Openstack release $release
 
-#Create cluster template with k8s version $newk8svers and containerd CRI
-openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$newk8svers-containerd \
---image Fedora-CoreOS-$COREOSMAJ \
---keypair mykey \
---external-network ${EXT_NET} \
---fixed-network demo-net \
---fixed-subnet demo-subnet \
---dns-nameserver ${neutron_ext_net_dns} \
---flavor m1.kubernetes.small \
---master-flavor m1.kubernetes.small \
---volume-driver cinder \
---docker-volume-size 10 \
---network-driver flannel \
---docker-storage-driver overlay2 \
---coe kubernetes \
+# Create cluster template with k8s version $newk8svers and containerd CRI
+openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$newk8svers-containerd \\
+--image Fedora-CoreOS-$COREOSMAJ \\
+--keypair mykey \\
+--external-network ${EXT_NET} \\
+--fixed-network demo-net \\
+--fixed-subnet demo-subnet \\
+--dns-nameserver ${neutron_ext_net_dns} \\
+--flavor m1.kubernetes.small \\
+--master-flavor m1.kubernetes.small \\
+--volume-driver cinder \\
+--docker-volume-size 10 \\
+--network-driver flannel \\
+--docker-storage-driver overlay2 \\
+--coe kubernetes \\
 --labels kube_tag=$newk8svers-rancher1,hyperkube_prefix=docker.io/rancher/,container_runtime=containerd,docker_volume_type=__DEFAULT__
 
-#Create cluster template with k8s version $newk8svers and containerd CRI using local docker registry
-openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$newk8svers-containerd-local-reg \
---image Fedora-CoreOS-$COREOSMAJ \
---keypair mykey \
---external-network ${EXT_NET} \
---fixed-network demo-net \
---fixed-subnet demo-subnet \
---dns-nameserver ${neutron_ext_net_dns} \
---flavor m1.kubernetes.small \
---master-flavor m1.kubernetes.small \
---volume-driver cinder \
---docker-volume-size 5 \
---network-driver flannel \
---docker-storage-driver overlay2 \
---coe kubernetes \
+# Create cluster template with k8s version $newk8svers and containerd CRI using local docker registry
+openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$newk8svers-containerd-local-reg \\
+--image Fedora-CoreOS-$COREOSMAJ \\
+--keypair mykey \\
+--external-network ${EXT_NET} \\
+--fixed-network demo-net \\
+--fixed-subnet demo-subnet \\
+--dns-nameserver ${neutron_ext_net_dns} \\
+--flavor m1.kubernetes.small \\
+--master-flavor m1.kubernetes.small \\
+--volume-driver cinder \\
+--docker-volume-size 5 \\
+--network-driver flannel \\
+--docker-storage-driver overlay2 \\
+--coe kubernetes \\
 --labels kube_tag=$newk8svers-rancher1,container_infra_prefix=${docker_registry_magnum}/,container_runtime=containerd,docker_volume_type=__DEFAULT__
 
 openstack coe cluster template update k8s-flan-small-$COREOSMAJ-$newk8svers-containerd-local-reg replace insecure_registry="${docker_registry_magnum}"
 
-#Create cluster template with k8s version $k8svers
-openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$k8svers \
---image Fedora-CoreOS-$COREOSMAJ \
---keypair mykey \
---external-network ${EXT_NET} \
---fixed-network demo-net \
---fixed-subnet demo-subnet \
---dns-nameserver ${neutron_ext_net_dns} \
---flavor m1.kubernetes.small \
---master-flavor m1.kubernetes.small \
---volume-driver cinder \
---docker-volume-size 10 \
---network-driver flannel \
---docker-storage-driver overlay2 \
---coe kubernetes \
+# Create cluster template with k8s version $k8svers
+openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$k8svers \\
+--image Fedora-CoreOS-$COREOSMAJ \\
+--keypair mykey \\
+--external-network ${EXT_NET} \\
+--fixed-network demo-net \\
+--fixed-subnet demo-subnet \\
+--dns-nameserver ${neutron_ext_net_dns} \\
+--flavor m1.kubernetes.small \\
+--master-flavor m1.kubernetes.small \\
+--volume-driver cinder \\
+--docker-volume-size 10 \\
+--network-driver flannel \\
+--docker-storage-driver overlay2 \\
+--coe kubernetes \\
 --labels kube_tag=$k8svers-rancher1,hyperkube_prefix=docker.io/rancher/,docker_volume_type=__DEFAULT__
 
-#Create cluster template with k8s version $k8svers using local docker registry
-openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$k8svers-local-reg \
---image Fedora-CoreOS-$COREOSMAJ \
---keypair mykey \
---external-network ${EXT_NET} \
---fixed-network demo-net \
---fixed-subnet demo-subnet \
---dns-nameserver ${neutron_ext_net_dns} \
---flavor m1.kubernetes.small \
---master-flavor m1.kubernetes.small \
---volume-driver cinder \
---docker-volume-size 5 \
---network-driver flannel \
---docker-storage-driver overlay2 \
---coe kubernetes \
+# Create cluster template with k8s version $k8svers using local docker registry
+openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$k8svers-local-reg \\
+--image Fedora-CoreOS-$COREOSMAJ \\
+--keypair mykey \\
+--external-network ${EXT_NET} \\
+--fixed-network demo-net \\
+--fixed-subnet demo-subnet \\
+--dns-nameserver ${neutron_ext_net_dns} \\
+--flavor m1.kubernetes.small \\
+--master-flavor m1.kubernetes.small \\
+--volume-driver cinder \\
+--docker-volume-size 5 \\
+--network-driver flannel \\
+--docker-storage-driver overlay2 \\
+--coe kubernetes \\
 --labels kube_tag=$k8svers-rancher1,container_infra_prefix=${docker_registry_magnum}/,docker_volume_type=__DEFAULT__
 
 openstack coe cluster template update k8s-flan-small-$COREOSMAJ-$k8svers-local-reg replace insecure_registry="${docker_registry_magnum}"
 
-#Create cluster template with k8s version $k8svers, containerd CRI and Master LB FIP - REQUIRES OCTAVIA!!!
-openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$k8svers-octavia-containerd-mlb-fip \
---image Fedora-CoreOS-$COREOSMAJ \
---keypair mykey \
---external-network ${EXT_NET} \
---fixed-network demo-net \
---fixed-subnet demo-subnet \
---dns-nameserver ${neutron_ext_net_dns} \
---flavor m1.kubernetes.med \
---master-flavor m1.kubernetes.med \
---volume-driver cinder \
---docker-volume-size 10 \
---network-driver flannel \
---docker-storage-driver overlay2 \
---coe kubernetes \
---master-lb-enabled \
---floating-ip-disabled \
+# Create cluster template with k8s version $k8svers, containerd CRI and Master LB FIP - REQUIRES OCTAVIA!!!
+openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$k8svers-octavia-containerd-mlb-fip \\
+--image Fedora-CoreOS-$COREOSMAJ \\
+--keypair mykey \\
+--external-network ${EXT_NET} \\
+--fixed-network demo-net \\
+--fixed-subnet demo-subnet \\
+--dns-nameserver ${neutron_ext_net_dns} \\
+--flavor m1.kubernetes.med \\
+--master-flavor m1.kubernetes.med \\
+--volume-driver cinder \\
+--docker-volume-size 10 \\
+--network-driver flannel \\
+--docker-storage-driver overlay2 \\
+--coe kubernetes \\
+--master-lb-enabled \\
+--floating-ip-disabled \\
 --labels kube_tag=$k8svers-rancher1,hyperkube_prefix=docker.io/rancher/,container_runtime=containerd,master_lb_floating_ip_enabled=true,docker_volume_type=__DEFAULT__
 
-#Create cluster template with k8s version $newk8svers, containerd CRI and Master LB FIP - REQUIRES OCTAVIA!!!
-openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$newk8svers-octavia-containerd-mlb-fip \
---image Fedora-CoreOS-$COREOSMAJ \
---keypair mykey \
---external-network ${EXT_NET} \
---fixed-network demo-net \
---fixed-subnet demo-subnet \
---dns-nameserver ${neutron_ext_net_dns} \
---flavor m1.kubernetes.small \
---master-flavor m1.kubernetes.small \
---volume-driver cinder \
---docker-volume-size 10 \
---network-driver flannel \
---docker-storage-driver overlay2 \
---coe kubernetes \
---master-lb-enabled \
---floating-ip-disabled \
+# Create cluster template with k8s version $newk8svers, containerd CRI and Master LB FIP - REQUIRES OCTAVIA!!!
+openstack coe cluster template create k8s-flan-small-$COREOSMAJ-$newk8svers-octavia-containerd-mlb-fip \\
+--image Fedora-CoreOS-$COREOSMAJ \\
+--keypair mykey \\
+--external-network ${EXT_NET} \\
+--fixed-network demo-net \\
+--fixed-subnet demo-subnet \\
+--dns-nameserver ${neutron_ext_net_dns} \\
+--flavor m1.kubernetes.small \\
+--master-flavor m1.kubernetes.small \\
+--volume-driver cinder \\
+--docker-volume-size 10 \\
+--network-driver flannel \\
+--docker-storage-driver overlay2 \\
+--coe kubernetes \\
+--master-lb-enabled \\
+--floating-ip-disabled \\
 --labels kube_tag=$newk8svers-rancher1,hyperkube_prefix=docker.io/rancher/,container_runtime=containerd,master_lb_floating_ip_enabled=true,docker_volume_type=__DEFAULT__
-
 EOF
 
+# Make the script executable
+chmod +x create_magnum_templates.sh
+
+# Create test app deployment files
 cat > test-app-deployment.yml << EOF
 apiVersion: apps/v1
 kind: Deployment
@@ -441,11 +298,9 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 80
-
 EOF
 
 cat > test-app-ingress.yml << EOF
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -463,15 +318,16 @@ spec:
             port:
               number: 80
   ingressClassName: nginx
-
 EOF
 
+# Run the cluster templates creation script
 sh create_magnum_templates.sh
 
+# Get the list of cluster templates
 CLUSTEMPS=$(openstack coe cluster template list)
 
+# Create readme file
 cat > readme_magnum.txt << EOF
-
 In order to interact with the OpenStack cluster, first run activate.sh and then authenticate:
 
 source ./activate.sh
@@ -505,7 +361,7 @@ openstack coe cluster create \\
     --keypair mykey \\
     k8s-flannel-small-$COREOSMAJ-$k8svers-local-reg
 
-To deploy a demo K8s cluster based on Fedora CoreOS $COREOSMAJ with 2 nodes and 1 master and containerd as runtime, run:
+To deploy a demo K8s cluster based on Fedora CoreOS $
 
 openstack coe cluster create \\
     --cluster-template k8s-flan-small-$COREOSMAJ-containerd \\
