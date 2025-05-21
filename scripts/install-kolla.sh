@@ -183,7 +183,7 @@ echo "Disabling local docker registry in /etc/kolla/globals.yml..."
 sed -i 's/^docker_registry:.*/#docker_registry: "${docker_registry_kolla}"/g' /etc/kolla/globals.yml
 sed -i 's/^docker_registry_insecure:.*/#docker_registry_insecure: yes/g' /etc/kolla/globals.yml
 echo "Pulling Kolla-Ansible containers to localhost..."
-. ./activate.sh
+. ~/activate.sh
 kolla-ansible -i all-in-one pull \$option \$kolla_mod
 echo "Enabling local docker registry in /etc/kolla/globals.yml..."
 sed -i 's/^#docker_registry:.*/docker_registry: "${docker_registry_kolla}"/g' /etc/kolla/globals.yml
