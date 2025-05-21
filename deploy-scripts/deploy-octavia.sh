@@ -93,7 +93,7 @@ echo "Sourcing octavia user openrc..."
 echo "Registering amphora image in glance..."
 # Uncomment below for raw image conversion if using Ceph as glance backend
 #qemu-img convert ./octavia/diskimage-create/amphora-x64-haproxy.qcow2 amphora-x64-haproxy.raw
-#openstack image create amphora-x64-haproxy.raw --container-format bare --disk-format raw --private --tag amphora --file ./octavia/diskimage-create/amphora-x64-haproxy.raw --property hw_architecture='x86_64' --property hw_rng_model=virtio
+#openstack image create amphora-x64-haproxy.raw --container-format bare --disk-format raw --private --tag amphora --file amphora-x64-haproxy.raw --property hw_architecture='x86_64' --property hw_rng_model=virtio
 openstack image create amphora-x64-haproxy.qcow2 --container-format bare --disk-format qcow2 --private --tag amphora --file ./octavia/diskimage-create/amphora-x64-haproxy.qcow2 --property hw_architecture='x86_64' --property hw_rng_model=virtio --progress
 
 cat > readme_octavia.txt << EOF
