@@ -24,7 +24,7 @@ time sh ~/deploy-scripts/download-svc.sh $option $kolla_mod
 
 # Enable Redis if the release is 2023.2 or higher
 if [[ $(echo -e "$release\n2023.2" | sort -V | head -n1) == "2023.2" ]]; then
-    sed -i 's/#enable_redis:.*/enable_redis: "yes"/' /etc/kolla/globals.yml
+    #sed -i 's/#enable_redis:.*/enable_redis: "yes"/' /etc/kolla/globals.yml
     tags="common,horizon,octavia,neutron,redis"
     kolla_mod2="redis"
     # Download kolla docker container
