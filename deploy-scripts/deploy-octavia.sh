@@ -92,6 +92,9 @@ echo "Sourcing octavia user openrc..."
 . /etc/kolla/octavia-openrc.sh
 echo "Registering amphora image in glance..."
 
+# Increase security groups quota for the service account
+openstack quota set --secgroups 500 service
+
 # Detect if Ceph is used as the Glance backend
 if grep -q "glance_backend_ceph: \"yes\"" /etc/kolla/globals.yml || \
    grep -q "glance_backend_ceph: \"yes\"" /etc/kolla/globals.d/*; then
